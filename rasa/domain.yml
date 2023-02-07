@@ -8,6 +8,7 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - generate_story
 
 responses:
   utter_greet:
@@ -28,6 +29,9 @@ responses:
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+
+  utter_welcome:
+  - text: "Welcome to storytime! Would you like to create a story together?"
 
 session_config:
   session_expiration_time: 60
