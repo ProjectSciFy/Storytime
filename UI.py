@@ -20,6 +20,7 @@ FONT_SIZE_SMALL = 24
 FONT = pygame.font.SysFont('Verdana',FONT_SIZE)
 SMALL_FONT = pygame.font.SysFont('Verdana',FONT_SIZE_SMALL)
 BUTTON_EXPAND_BUFFER = 5
+MAIN_COLOR_SCHEME = 5
 # COLOR SCHEME:
 # Color order:
 #   colorscheme[0]-Main background:              Light
@@ -173,8 +174,8 @@ def test():
         dropdownX, dropdownY[2], dropdownWidth, dropdownHeight, 
         pygame.font.SysFont('Verdana', FONT_SIZE_SMALL), 
         "Select Language:", ["English", "Spanish"])
-
-    while True:
+    running = True
+    while running:
         # Create quit button text, outline, filling, and hovering variables
         sideBarLWidth = 360
         button_h = text_button_dark.get_height()
@@ -203,7 +204,7 @@ def test():
             SCREEN.blit(text_button_dark, text_button_dark.get_rect(center = quitButtonRect.center))
             
         # Quit button outline
-        pygame.draw.rect(SCREEN, COLORSCHEME[6], quitButtonRect, 2, 3)
+        pygame.draw.rect(SCREEN, COLORSCHEME[Scheme("TEXT_NO_HOVER")], quitButtonRect, 2, 3)
         
         # Main menu text message
         mainMenuTextLocX = WINDOW_WIDTH/2 - text_main_menu.get_width()/2 + sideBarLWidth/2
@@ -234,12 +235,12 @@ def test():
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if checkHover(text_button_dark, mouse, SCREEN.get_width(), SCREEN.get_height(), offx=sideBarLWidth):
-                    pygame.quit()
+                    running = False
             if event.type == pygame.QUIT:
-                pygame.quit()
+                running = False
         
         pygame.display.update()
-        
+    pygame.quit()
 ''''''''''''''''''''''''''''''''''''
         
 #If you uncomment this line, you must comment out all lines below this function (they will be unreachable.)
@@ -253,5 +254,5 @@ def test():
 #You will need both line 152 and 153 un-commented in order to test the color schemes in "Colorschemes.txt".
 
 #Un-comment the line below to change color schemes
-COLORSCHEME = applyColorScheme(5)
+COLORSCHEME = applyColorScheme(MAIN_COLOR_SCHEME)
 test()
