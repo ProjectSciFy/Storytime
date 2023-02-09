@@ -16,6 +16,7 @@ class DropDown():
         self.draw_menu = False
         self.menu_active = False
         self.active_option = -1
+        self.current_value = ""
 
     def draw(self, surf):
         startTop = (self.rect.midright[0] - 30, self.rect.midright[1] - self.rect.size[1]//4)
@@ -57,6 +58,7 @@ class DropDown():
             rect.y += (i) * self.rect.height
             if rect.collidepoint(mpos):
                 self.active_option = i
+                self.current_value = self.options[self.active_option]
                 break
 
         if not self.menu_active and self.active_option == -1:
