@@ -1,5 +1,4 @@
 import pygame
-import math
 import dropdown
 pygame.init()
 pygame.font.init()
@@ -14,13 +13,18 @@ COLOR_SCHEME_FILE_NAME = "Colorschemes.txt"
 WINDOW_WIDTH = 1100
 WINDOW_HEIGHT = 700
 RESOLUTION = (WINDOW_WIDTH, WINDOW_HEIGHT)
-SCREEN = pygame.display.set_mode(RESOLUTION)
+STORY_WINDOW = pygame.display.set_mode(RESOLUTION)
+MAIN_MENU_WINDOW = pygame.display.set_mode(RESOLUTION)
+in_main_window = True
 FONT_SIZE = 30
 FONT_SIZE_SMALL = 24
 FONT = pygame.font.SysFont('Verdana',FONT_SIZE)
 SMALL_FONT = pygame.font.SysFont('Verdana',FONT_SIZE_SMALL)
 BUTTON_EXPAND_BUFFER = 5
 MAIN_COLOR_SCHEME = 5
+Genre = ""
+Length = ""
+Language = ""
 # COLOR SCHEME:
 # Color order:
 #   colorscheme[0]-Main background:              Light
@@ -91,11 +95,11 @@ def displaySchemes():
             text_button = FONT.render(f"Color Scheme #{schemNum}:" , True, "#ffffff")
             locx = 320
             locy += y_offset
-            SCREEN.blit(text_button, (x_offset + offset, locy + offset))
+            MAIN_MENU_WINDOW.blit(text_button, (x_offset + offset, locy + offset))
             for color in scheme:
                 x = locx
                 y = locy
-                pygame.draw.rect(SCREEN, color, pygame.Rect(x, y, 60, 60), border_radius=3)
+                pygame.draw.rect(MAIN_MENU_WINDOW, color, pygame.Rect(x, y, 60, 60), border_radius=3)
                 locx += size + x_offset
             schemNum += 1
         pygame.display.update()
@@ -123,36 +127,32 @@ def applyColorScheme(n, order=[0,1,2,3,4,5,6,7]):
     extra3 = loadScheme[order[7]]
     return [background, extra1, button_light, button_dark, extra2, text_light, text_dark, extra3]
 
-def checkHover(pyButton: pygame.Surface, pyMouse: pygame.mouse, locx: int, locy: int, offx=0, offy=0) -> bool:
-    hovering = False
-    inBoundX = (locx/2-pyButton.get_width()/2) - offx/2 <= pyMouse[0] <= (locx/2+pyButton.get_width()/2) + offx/2
-    inBoundY = (locy/2-pyButton.get_height()/2) - offy/2 <= pyMouse[1] <= (locy/2+pyButton.get_height()/2) + offy/2
-    if inBoundX and inBoundY:
-        hovering = True
-    return hovering
-
-def test():
+def run():
+    in_main_window = True
     # Grab colors from color scheme
     button_light = COLORSCHEME[Scheme("BUTTON_HOVER")]
     button_dark = COLORSCHEME[Scheme("BUTTON_NO_HOVER")]
-    # Render colors, text, and font for quit button (hover/no hover) and main menu text message
-    text_button_dark = FONT.render('Quit' , True , COLORSCHEME[Scheme("TEXT_NO_HOVER")])
-    text_button_light = FONT.render('Quit' , True , COLORSCHEME[Scheme("TEXT_HOVER")])
+    # Render colors, text, and font for screen swap button (hover/no hover) and main menu text message
+    text_button_dark = FONT.render('View Story' , True , COLORSCHEME[Scheme("TEXT_NO_HOVER")])
+    text_button_light = FONT.render('View Story' , True , COLORSCHEME[Scheme("TEXT_HOVER")])
+    text_button_dark_back_main = FONT.render('Go to Main Menu' , True , COLORSCHEME[Scheme("TEXT_NO_HOVER")])
+    text_button_light_back_main = FONT.render('Go to Main Menu' , True , COLORSCHEME[Scheme("TEXT_HOVER")])
     FONT.set_bold(True)
     FONT.set_underline(True)
     text_main_menu = FONT.render('Welcome to Storytime!' , True , COLORSCHEME[Scheme("TEXT_NO_HOVER")])
     text_select_menu = FONT.render('Customize Story:' , True , COLORSCHEME[Scheme("TEXT_NO_HOVER")])
+    text_story = FONT.render('Story Time!' , True , COLORSCHEME[Scheme("TEXT_NO_HOVER")])
     FONT.set_bold(False)
     FONT.set_underline(False)
     # Dropdowns setup
-    numDropdowns = 3
+    numDropdowns = 2
     dropdownX = 30
     dropdownWidth = 300
     dropdownHeight = 50
     dropdownY = list()
-    dropdownBuffer = 50
+    dropdownBuffer = 30
     for i in range(numDropdowns):
-        dropdownY.append(dropdownHeight*i + dropdownBuffer*(i + 2))
+        dropdownY.append(dropdownHeight*i + dropdownBuffer*(i + 3))
     genreDropdown = dropdown.DropDown(
         [button_dark, button_light],
         [COLORSCHEME[Scheme("BUTTON_NO_HOVER")], COLORSCHEME[Scheme("BUTTON_HOVER")]],
@@ -160,82 +160,110 @@ def test():
         dropdownX, dropdownY[0], dropdownWidth, dropdownHeight, 
         pygame.font.SysFont('Verdana', FONT_SIZE_SMALL), 
         "Select Genre:", ["Fiction", "History"])
-    lengthDropdown = dropdown.DropDown(
+    languageDropdown = dropdown.DropDown(
         [button_dark, button_light],
         [COLORSCHEME[Scheme("BUTTON_NO_HOVER")], COLORSCHEME[Scheme("BUTTON_HOVER")]],
         COLORSCHEME[Scheme("TEXT_NO_HOVER")],
         dropdownX, dropdownY[1], dropdownWidth, dropdownHeight, 
         pygame.font.SysFont('Verdana', FONT_SIZE_SMALL), 
-        "Select Length:", ["Short", "Medium", "Long"])
-    languageDropdown = dropdown.DropDown(
-        [button_dark, button_light],
-        [COLORSCHEME[Scheme("BUTTON_NO_HOVER")], COLORSCHEME[Scheme("BUTTON_HOVER")]],
-        COLORSCHEME[Scheme("TEXT_NO_HOVER")],
-        dropdownX, dropdownY[2], dropdownWidth, dropdownHeight, 
-        pygame.font.SysFont('Verdana', FONT_SIZE_SMALL), 
         "Select Language:", ["English", "Spanish"])
     running = True
     while running:
-        # Create quit button text, outline, filling, and hovering variables
-        sideBarLWidth = 360
-        button_h = text_button_dark.get_height()
-        button_w = text_button_dark.get_width()
-        offset_h = text_button_dark.get_height()//5
-        offset_w = text_button_dark.get_width()//2
-        midButtonW = WINDOW_WIDTH/2 - button_w/2 + sideBarLWidth/2
-        midButtonH = WINDOW_HEIGHT/2 - button_h/2
-        buttonLocX = midButtonW - offset_w/2
-        buttonLocY = midButtonH - offset_h/2
-        buttonWithOffsetW = button_w + offset_w
-        buttonWithOffsetH = button_h + offset_h
-        # Rectangle for quit button
-        quitButtonRect = pygame.Rect(buttonLocX, buttonLocY, buttonWithOffsetW, buttonWithOffsetH)
-        
-        # Fill screen background and get mouse position
-        SCREEN.fill(COLORSCHEME[Scheme("BACKGROUND")])
-        mouse = pygame.mouse.get_pos()
-        
-        # Quit button interior (hover or no hover)
-        if checkHover(text_button_dark, mouse, WINDOW_WIDTH + sideBarLWidth, WINDOW_HEIGHT, offset_w, offset_h):
-            pygame.draw.rect(SCREEN, button_light, quitButtonRect, border_radius=3)
-            SCREEN.blit(text_button_light, text_button_light.get_rect(center = quitButtonRect.center))
-        else:
-            pygame.draw.rect(SCREEN, button_dark, quitButtonRect, border_radius=3)
-            SCREEN.blit(text_button_dark, text_button_dark.get_rect(center = quitButtonRect.center))
-            
-        # Quit button outline
-        pygame.draw.rect(SCREEN, COLORSCHEME[Scheme("TEXT_NO_HOVER")], quitButtonRect, 2, 3)
-        
-        # Main menu text message
-        mainMenuTextLocX = WINDOW_WIDTH/2 - text_main_menu.get_width()/2 + sideBarLWidth/2
-        mainMenuTextLocY = WINDOW_HEIGHT/2 - text_main_menu.get_height()/2-100
-        SCREEN.blit(text_main_menu, (mainMenuTextLocX, mainMenuTextLocY))
-        
         # Events:
         event_list = pygame.event.get()
-        
-        # Update dropdowns
-        selected_option_genre = genreDropdown.update(event_list)
-        selected_option_length = lengthDropdown.update(event_list)
-        selected_option_language = languageDropdown.update(event_list)
-        if selected_option_genre >= 0:
-            genreDropdown.main = genreDropdown.options[selected_option_genre]
-        elif selected_option_length >= 0:
-            lengthDropdown.main = lengthDropdown.options[selected_option_length]
-        elif selected_option_language >= 0:
-            languageDropdown.main = languageDropdown.options[selected_option_language]
-        # Draw vertical dropdown separator
-        SCREEN.blit(text_select_menu, (dropdownX, dropdownHeight/2))
-        pygame.draw.line(SCREEN, COLORSCHEME[Scheme("TEXT_NO_HOVER")], (sideBarLWidth, 10), (sideBarLWidth, 690), width=2)
-        genreDropdown.draw(SCREEN)
-        lengthDropdown.draw(SCREEN)
-        languageDropdown.draw(SCREEN)
+        if in_main_window:
+            # Create screen swap button text, outline, filling, and hovering variables
+            sideBarLWidth = 360
+            button_h = text_button_dark.get_height()
+            button_w = text_button_dark.get_width()
+            offset_h = text_button_dark.get_height()//5
+            offset_w = text_button_dark.get_width()//2
+            midButtonW = WINDOW_WIDTH/2 - button_w/2 + sideBarLWidth/2
+            midButtonH = WINDOW_HEIGHT/2 - button_h/2
+            buttonLocX = midButtonW - offset_w/2
+            buttonLocY = midButtonH - offset_h/2
+            buttonWithOffsetW = button_w + offset_w
+            buttonWithOffsetH = button_h + offset_h
+            # Rectangle for quit button
+            viewStoryButtonRect = pygame.Rect(buttonLocX, buttonLocY, buttonWithOffsetW, buttonWithOffsetH)
+
+            # Fill MAIN_MENU_WINDOW background and get mouse position
+            MAIN_MENU_WINDOW.fill(COLORSCHEME[Scheme("BACKGROUND")])
+            mouse = pygame.mouse.get_pos()
+            
+            # View story button interior (hover or no hover)
+            if viewStoryButtonRect.collidepoint(mouse):
+                pygame.draw.rect(MAIN_MENU_WINDOW, button_light, viewStoryButtonRect, border_radius=3)
+                MAIN_MENU_WINDOW.blit(text_button_light, text_button_light.get_rect(center = viewStoryButtonRect.center))
+            else:
+                pygame.draw.rect(MAIN_MENU_WINDOW, button_dark, viewStoryButtonRect, border_radius=3)
+                MAIN_MENU_WINDOW.blit(text_button_dark, text_button_dark.get_rect(center = viewStoryButtonRect.center))
+                
+            # View story button outline
+            pygame.draw.rect(MAIN_MENU_WINDOW, COLORSCHEME[Scheme("TEXT_NO_HOVER")], viewStoryButtonRect, 2, 3)
+            
+            # Main menu text message
+            mainMenuTextLocX = WINDOW_WIDTH/2 - text_main_menu.get_width()/2 + sideBarLWidth/2
+            mainMenuTextLocY = WINDOW_HEIGHT/2 - text_main_menu.get_height()/2-100
+            MAIN_MENU_WINDOW.blit(text_main_menu, (mainMenuTextLocX, mainMenuTextLocY))
+            
+            # Update dropdowns
+            selected_option_genre = genreDropdown.update(event_list)
+            selected_option_language = languageDropdown.update(event_list)
+            if selected_option_genre >= 0:
+                genreDropdown.main = genreDropdown.options[selected_option_genre]
+            elif selected_option_language >= 0:
+                languageDropdown.main = languageDropdown.options[selected_option_language]
+            # Draw vertical dropdown separator
+            MAIN_MENU_WINDOW.blit(text_select_menu, (dropdownX, dropdownHeight/2))
+            pygame.draw.line(MAIN_MENU_WINDOW, COLORSCHEME[Scheme("TEXT_NO_HOVER")], (sideBarLWidth, 10), (sideBarLWidth, 690), width=2)
+            genreDropdown.draw(MAIN_MENU_WINDOW)
+            languageDropdown.draw(MAIN_MENU_WINDOW)
+            Genre = genreDropdown.current_value
+            Language = languageDropdown.current_value
+        else:
+            # Create screen swap button text, outline, filling, and hovering variables
+            sideBarLWidth = 0
+            button_h = text_button_dark_back_main.get_height()
+            button_w = text_button_dark_back_main.get_width()
+            offset_h = text_button_dark_back_main.get_height()//5
+            offset_w = text_button_dark_back_main.get_width()//2
+            midButtonW = WINDOW_WIDTH/2 - button_w/2 + sideBarLWidth/2
+            midButtonH = WINDOW_HEIGHT/2 - button_h/2
+            buttonLocX = midButtonW - offset_w/2
+            buttonLocY = midButtonH - offset_h/2
+            buttonWithOffsetW = button_w + offset_w
+            buttonWithOffsetH = button_h + offset_h
+            # Rectangle for back to main menu button
+            backToMenuButtonRect = pygame.Rect(buttonLocX, buttonLocY, buttonWithOffsetW, buttonWithOffsetH)
+
+            # Fill STORY_WINDOW background and get mouse position
+            STORY_WINDOW.fill(COLORSCHEME[Scheme("BACKGROUND")])
+            mouse = pygame.mouse.get_pos()
+            
+            # Back to main menu button interior (hover or no hover)
+            if backToMenuButtonRect.collidepoint(mouse):
+                pygame.draw.rect(STORY_WINDOW, button_light, backToMenuButtonRect, border_radius=3)
+                STORY_WINDOW.blit(text_button_light_back_main, text_button_light_back_main.get_rect(center = backToMenuButtonRect.center))
+            else:
+                pygame.draw.rect(STORY_WINDOW, button_dark, backToMenuButtonRect, border_radius=3)
+                STORY_WINDOW.blit(text_button_dark_back_main, text_button_dark_back_main.get_rect(center = backToMenuButtonRect.center))
+                
+            # Back to main menu story button outline
+            pygame.draw.rect(STORY_WINDOW, COLORSCHEME[Scheme("TEXT_NO_HOVER")], backToMenuButtonRect, 2, 3)
+            
+            # Story time text message
+            storyTextLocX = WINDOW_WIDTH/2 - text_story.get_width()/2 + sideBarLWidth/2
+            storyTextLocY = WINDOW_HEIGHT/2 - text_story.get_height()/2-100
+            STORY_WINDOW.blit(text_story, (storyTextLocX, storyTextLocY))
         
         # Check for any button pushes or program closure
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if checkHover(text_button_dark, mouse, SCREEN.get_width(), SCREEN.get_height(), offx=sideBarLWidth):
-                    running = False
+                if in_main_window and viewStoryButtonRect.collidepoint(mouse):
+                    in_main_window = False
+                elif not in_main_window and backToMenuButtonRect.collidepoint(mouse):
+                    in_main_window = True
             if event.type == pygame.QUIT:
                 running = False
         
@@ -255,4 +283,4 @@ def test():
 
 #Un-comment the line below to change color schemes
 COLORSCHEME = applyColorScheme(MAIN_COLOR_SCHEME)
-test()
+run()
