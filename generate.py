@@ -1,5 +1,5 @@
 import openai
-openai.api_key = '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'
+openai.api_key = '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'
 
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
