@@ -5,6 +5,7 @@ import utility as utl
 import helpers as h
 import main
 import story
+import inputbox
 pygame.init()
 pygame.font.init()
 
