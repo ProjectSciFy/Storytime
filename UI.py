@@ -1,5 +1,6 @@
 import pygame
-import dropdown
+# import dropdown
+import sounds
 import utility as utl
 import helpers as h
 import main
@@ -25,8 +26,10 @@ def run():
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if in_main_window and viewStoryButtonRect.collidepoint(mouse):
+                    sounds.playSound("success")
                     in_main_window = False
                 elif not in_main_window and backToMenuButtonRect.collidepoint(mouse):
+                    sounds.playSound("success")
                     in_main_window = True
             if event.type == pygame.QUIT:
                 running = False
