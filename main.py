@@ -1,7 +1,10 @@
 import pygame
+import sounds
+from PIL import ImageColor
 import utility as utl
 import helpers as h
 import dropdown
+import gradient
 pygame.init()
 pygame.font.init()
 
@@ -75,8 +78,13 @@ def updateMain(event_list: list):
     # Rectangle for quit button
     viewStoryButtonRect = pygame.Rect(buttonLocX, buttonLocY, buttonWithOffsetW, buttonWithOffsetH)
 
-    # Fill MAIN_MENU_WINDOW background and get mouse position
-    utl.MAIN_MENU_WINDOW.fill(utl.COLORSCHEME[h.Scheme("BACKGROUND")])
+    # Fill MAIN_MENU_WINDOW background gradient and get mouse position
+    startColor = ImageColor.getcolor(utl.COLORSCHEME[h.Scheme("BACKGROUND")], "RGB")
+    endColor = ImageColor.getcolor(utl.COLORSCHEME[h.Scheme("BACKGROUND2")], "RGB")
+    gradient.fillGradient(utl.MAIN_MENU_WINDOW, startColor, endColor)
+    h.drawBorder(utl.MAIN_MENU_WINDOW)
+    
+    # utl.MAIN_MENU_WINDOW.fill(utl.COLORSCHEME[h.Scheme("BACKGROUND")])
     mouse = pygame.mouse.get_pos()
     
     # View story button interior (hover or no hover)
