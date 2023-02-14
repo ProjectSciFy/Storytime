@@ -2,6 +2,8 @@ import pygame
 import utility as utl
 import helpers as h
 import dropdown
+import inputbox
+
 pygame.init()
 pygame.font.init()
 
@@ -54,6 +56,26 @@ languageDropdown = dropdown.DropDown(
     "Select Language:", ["English", "Spanish"])
 
 
+''''''''''''''''''
+'                '
+' INPUTBOX STUFF  '
+'                '
+''''''''''''''''''
+inputboxX = 375
+inputboxWidth = 715
+inputboxHeight = 50
+inputboxY = 637
+inputboxnBuffer = 30
+
+inputBox = inputbox.InputBox(
+    utl.COLORSCHEME[h.Scheme("OUTLINE_HOVER")],
+    utl.COLORSCHEME[h.Scheme("OUTLINE_NO_HOVER")],
+    utl.COLORSCHEME[h.Scheme("TEXT_HOVER")],
+    inputboxX,
+    inputboxY,
+    inputboxWidth,
+    inputboxHeight,
+    pygame.font.SysFont('Verdana', utl.FONT_SIZE_SMALL))
 ''''''''''''''''''
 '                '
 '  MAIN FUNCTION '
@@ -110,5 +132,12 @@ def updateMain(event_list: list):
     languageDropdown.draw(utl.MAIN_MENU_WINDOW)
     Genre = genreDropdown.current_value
     Language = languageDropdown.current_value
+
+    #add textbox
+    inputBox.draw(utl.MAIN_MENU_WINDOW)
+    text = ""
+    if len(event_list) > 0:
+        text = inputBox.update(event_list[0])
+        
     
     return viewStoryButtonRect, Genre, Language
