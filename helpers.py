@@ -18,13 +18,13 @@ def Scheme(component: str):
         return 2
     elif item == "BUTTON_NO_HOVER":
         return 3
-    elif item == "EXTRA2":
+    elif item == "BACKGROUND2":
         return 4
     elif item == "TEXT_NO_HOVER":
         return 5
     elif item == "TEXT_HOVER":
         return 6
-    elif item == "EXTRA3":
+    elif item == "EXTRA2":
         return 7
     elif item == "OUTLINE_NO_HOVER":
         return 5
@@ -71,15 +71,17 @@ def displaySchemes():
             schemNum += 1
         pygame.display.update()
 
+
+# COLOR SCHEME:
 # Color order:
-#   0-Main background:              Light
-#   1-Extra1
-#   2-Button:           Hover       Light
-#   3-Button:           No hover    Dark
-#   4-Extra2
-#   5-Text/Outlines:    No hover    Dark
-#   6-Text/Outlines:    Hover       Light
-#   7-Extra3
+#   colorscheme[0]-Main background:                 Light
+#   colorscheme[1]-Extra1
+#   colorscheme[2]-Button:              Hover       Light
+#   colorscheme[3]-Button:              No hover    Dark
+#   colorscheme[4]-Background gradient              Dark
+#   colorscheme[5]-Text/Outlines:       No hover    Dark
+#   colorscheme[6]-Text/Outlines:       Hover       Light
+#   colorscheme[7]-Extra2
 #
 # n: row number of color scheme in "Colorscheme.txt"
 def applyColorScheme(n, order=[0,1,2,3,4,5,6,7]):
@@ -88,8 +90,12 @@ def applyColorScheme(n, order=[0,1,2,3,4,5,6,7]):
     extra1 = loadScheme[order[1]]
     button_light = loadScheme[order[2]]
     button_dark = loadScheme[order[3]]
-    extra2 = loadScheme[order[4]]
+    background2 = loadScheme[order[4]]
     text_light = loadScheme[order[5]]
     text_dark = loadScheme[order[6]]
-    extra3 = loadScheme[order[7]]
-    return [background, extra1, button_light, button_dark, extra2, text_light, text_dark, extra3]
+    extra2 = loadScheme[order[7]]
+    return [background, extra1, button_light, button_dark, background2, text_light, text_dark, extra2]
+
+def drawBorder(surf: pygame.Surface):
+    rect = pygame.Rect(0, 0, surf.get_width(), surf.get_height())
+    pygame.draw.rect(surf, utl.COLORSCHEME[Scheme("TEXT_NO_HOVER")], rect, 2)
