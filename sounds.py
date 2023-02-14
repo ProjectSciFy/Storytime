@@ -1,4 +1,6 @@
 from playsound import playsound
+import os
+path = os.path.abspath(os.getcwd()).strip().replace(" ", "").replace("//", "/")
 
 '''
 LINK TO FIND SOUNDS: https://freesound.org/browse/tags/press/?page=2#sound
@@ -12,10 +14,10 @@ PIP INSTALL COMMAND: pip install playsound==1.2.2
 
 def updateSounds():
     sounds = {}
-    openingSound = './sounds/Bubbles_Opening.wav'
-    clingButtonSound = './sounds/ClingButton.wav'
-    scifiButtonSound = './sounds/SciFiButton.wav'
-    successSound = './sounds/Success.wav'
+    openingSound = path + '/sounds/Bubbles_Opening.wav'
+    clingButtonSound = path + '/sounds/ClingButton.wav'
+    scifiButtonSound = path + '/sounds/SciFiButton.wav'
+    successSound = path + '/sounds/Success.wav'
     sounds["OPENING"] = openingSound
     sounds["CLING"] = clingButtonSound
     sounds["SCIFI"] = scifiButtonSound
