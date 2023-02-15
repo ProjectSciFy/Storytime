@@ -1,4 +1,6 @@
 import pygame as pg
+import sounds
+
 class DropDown():
     
     def __init__(self, color_menu, color_option, color_font, x, y, w, h, font, main, options):
@@ -69,6 +71,7 @@ class DropDown():
                 if self.menu_active:
                     self.draw_menu = not self.draw_menu
                 elif self.draw_menu and self.active_option >= 0:
+                    sounds.playSound('cling')
                     self.draw_menu = False
                     return self.active_option
         return -1

@@ -1,4 +1,5 @@
 import pygame
+import sounds as s
 pygame.font.init()
 
 '''''''''''''''''
@@ -24,12 +25,12 @@ Length = ""
 Language = ""
 # COLOR SCHEME:
 # Color order:
-#   colorscheme[0]-Main background:              Light
+#   colorscheme[0]-Main background:                 Light
 #   colorscheme[1]-Extra1
-#   colorscheme[2]-Button:           Hover       Light
-#   colorscheme[3]-Button:           No hover    Dark
-#   colorscheme[4]-Extra2
-#   colorscheme[5]-Text/Outlines:    No hover    Dark
-#   colorscheme[6]-Text/Outlines:    Hover       Light
-#   colorscheme[7]-Extra3
+#   colorscheme[2]-Button:              Hover       Light
+#   colorscheme[3]-Button:              No hover    Dark
+#   colorscheme[4]-Background gradient              Dark
+#   colorscheme[5]-Text/Outlines:       No hover    Dark
+#   colorscheme[6]-Text/Outlines:       Hover       Light
+#   colorscheme[7]-Extra2
 COLORSCHEME = ["#dfd1d3", "#f5e6e8", "#d5c6e0", "#aaa1c8", "#967aa1", "#192a51", "#2e3d61", "#414f6f"]

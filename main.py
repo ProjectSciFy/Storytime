@@ -1,7 +1,11 @@
 import pygame
+import sounds
+from PIL import ImageColor
 import utility as utl
 import helpers as h
 import dropdown
+import gradient
+import inputbox
 pygame.init()
 pygame.font.init()
 
@@ -56,6 +60,26 @@ languageDropdown = dropdown.DropDown(
 
 ''''''''''''''''''
 '                '
+' INPUTBOX STUFF  '
+'                '
+''''''''''''''''''
+inputboxX = 375
+inputboxWidth = 715
+inputboxHeight = 50
+inputboxY = 637
+inputboxnBuffer = 30
+
+inputBox = inputbox.InputBox(
+    utl.COLORSCHEME[h.Scheme("OUTLINE_HOVER")],
+    utl.COLORSCHEME[h.Scheme("OUTLINE_NO_HOVER")],
+    utl.COLORSCHEME[h.Scheme("TEXT_HOVER")],
+    inputboxX,
+    inputboxY,
+    inputboxWidth,
+    inputboxHeight,
+    pygame.font.SysFont('Verdana', utl.FONT_SIZE_SMALL))
+''''''''''''''''''
+'                '
 '  MAIN FUNCTION '
 '                '
 ''''''''''''''''''
@@ -75,8 +99,13 @@ def updateMain(event_list: list):
     # Rectangle for quit button
     viewStoryButtonRect = pygame.Rect(buttonLocX, buttonLocY, buttonWithOffsetW, buttonWithOffsetH)
 
-    # Fill MAIN_MENU_WINDOW background and get mouse position
-    utl.MAIN_MENU_WINDOW.fill(utl.COLORSCHEME[h.Scheme("BACKGROUND")])
+    # Fill MAIN_MENU_WINDOW background gradient and get mouse position
+    startColor = ImageColor.getcolor(utl.COLORSCHEME[h.Scheme("BACKGROUND")], "RGB")
+    endColor = ImageColor.getcolor(utl.COLORSCHEME[h.Scheme("BACKGROUND2")], "RGB")
+    gradient.fillGradient(utl.MAIN_MENU_WINDOW, startColor, endColor)
+    h.drawBorder(utl.MAIN_MENU_WINDOW)
+    
+    # utl.MAIN_MENU_WINDOW.fill(utl.COLORSCHEME[h.Scheme("BACKGROUND")])
     mouse = pygame.mouse.get_pos()
     
     # View story button interior (hover or no hover)
@@ -110,5 +139,12 @@ def updateMain(event_list: list):
     languageDropdown.draw(utl.MAIN_MENU_WINDOW)
     Genre = genreDropdown.current_value
     Language = languageDropdown.current_value
+
+    #add textbox
+    inputBox.draw(utl.MAIN_MENU_WINDOW)
+    text = ""
+    if len(event_list) > 0:
+        text = inputBox.update(event_list[0])
+        
     
     return viewStoryButtonRect, Genre, Language
