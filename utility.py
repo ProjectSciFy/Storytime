@@ -23,6 +23,7 @@ MAIN_COLOR_SCHEME = 5
 Genre = ""
 Length = ""
 Language = ""
+storyLine = 0
 # COLOR SCHEME:
 # Color order:
 #   colorscheme[0]-Main background:                 Light
