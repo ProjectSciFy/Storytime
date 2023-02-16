@@ -53,7 +53,8 @@ def updateStory(event_list: list):
     inputFile = open('story_text.txt', 'r')
     storyText = []
     for line in inputFile: 
-        storyText.append(line)
+        storyText.append(line.replace('\n', " "))
+    
     numOfEntries = len(storyText)
 
     
