@@ -8,12 +8,12 @@ def fadeInText():
     background=pygame.Surface((window.get_rect().width, window.get_rect().height))
 
 
-    for i in range (225):
+    for i in range (100):
         background.fill((0,0,0))    
         image.set_alpha(i)
         window.blit(image,(0,0))
         pygame.display.flip()
-        pygame.time.delay(10)
+        pygame.time.delay(15)
     
     return 
 
