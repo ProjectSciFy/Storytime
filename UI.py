@@ -54,5 +54,5 @@ def run():
 
 #Un-comment the line below to change color schemes
 utl.COLORSCHEME = h.applyColorScheme(utl.MAIN_COLOR_SCHEME)
-fi.fadeInText();
+fi.fadeInText()
 run()

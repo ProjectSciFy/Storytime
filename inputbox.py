@@ -24,13 +24,15 @@ class InputBox():
         # Blit the text.
         surf.blit(self.txt_surface, (self.rect.x+5, self.rect.y+5))
         # Blit the rect.
-        pg.draw.rect(surf, self.color, self.rect, 2)
+        pg.draw.rect(surf, self.color_inactive, self.rect, 2, border_radius=3)
 
-        if time.time() % 1 > 0.5 and self.active:
-            # set cursor position
-            self.cursor.midleft = (self.rect.midleft[0] + self.txt_surface.get_rect().width + 1, self.rect.midleft[1])
+        if self.active:
+            pg.draw.rect(surf, self.color_active, self.rect, 2, border_radius=3)
+            if time.time() % 1 > 0.5:
+                # set cursor position
+                self.cursor.midleft = (self.rect.midleft[0] + self.txt_surface.get_rect().width + 1, self.rect.midleft[1])
 
-            pg.draw.rect(surf, self.color, self.cursor)
+                pg.draw.rect(surf, self.color, self.cursor)
 
     def update(self, event):
         text = self.text
