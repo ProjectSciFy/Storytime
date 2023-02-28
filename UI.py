@@ -6,6 +6,7 @@ import helpers as h
 import main
 import story
 import inputbox
+import fadeIn as fi
 pygame.init()
 pygame.font.init()
 
@@ -53,4 +54,5 @@ def run():
 
 #Un-comment the line below to change color schemes
 utl.COLORSCHEME = h.applyColorScheme(utl.MAIN_COLOR_SCHEME)
+fi.fadeInText()
 run()
