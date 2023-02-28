@@ -63,8 +63,8 @@ languageDropdown = dropdown.DropDown(
 ' INPUTBOX STUFF  '
 '                '
 ''''''''''''''''''
-inputboxX = 375
-inputboxWidth = 715
+inputboxX = 392
+inputboxWidth = 679
 inputboxHeight = 50
 inputboxY = 637
 inputboxnBuffer = 30
@@ -90,13 +90,17 @@ def updateMain(event_list: list):
     button_w = text_button_dark.get_width()
     offset_h = text_button_dark.get_height()//5
     offset_w = text_button_dark.get_width()//2
-    midButtonW = utl.WINDOW_WIDTH/2 - button_w/2 + sideBarLWidth/2
-    midButtonH = utl.WINDOW_HEIGHT/2 - button_h/2
-    buttonLocX = midButtonW - offset_w/2
-    buttonLocY = midButtonH - offset_h/2
-    buttonWithOffsetW = button_w + offset_w
-    buttonWithOffsetH = button_h + offset_h
-    # Rectangle for quit button
+    buttonLocX = dropdownX
+    buttonLocY = 637
+    buttonWithOffsetW = 300
+    buttonWithOffsetH = 50
+    # midButtonW = utl.WINDOW_WIDTH/2 - button_w/2 + sideBarLWidth/2
+    # midButtonH = utl.WINDOW_HEIGHT/2 - button_h/2
+    # buttonLocX = midButtonW - offset_w/2
+    # buttonLocY = midButtonH - offset_h/2
+    # buttonWithOffsetW = button_w + offset_w
+    # buttonWithOffsetH = button_h + offset_h
+    # Rectangle for view story button
     viewStoryButtonRect = pygame.Rect(buttonLocX, buttonLocY, buttonWithOffsetW, buttonWithOffsetH)
 
     # Fill MAIN_MENU_WINDOW background gradient and get mouse position
@@ -121,7 +125,7 @@ def updateMain(event_list: list):
     
     # Main menu text message
     mainMenuTextLocX = utl.WINDOW_WIDTH/2 - text_main_menu.get_width()/2 + sideBarLWidth/2
-    mainMenuTextLocY = utl.WINDOW_HEIGHT/2 - text_main_menu.get_height()/2-100
+    mainMenuTextLocY = text_main_menu.get_height()/2 + 8
     utl.MAIN_MENU_WINDOW.blit(text_main_menu, (mainMenuTextLocX, mainMenuTextLocY))
     
     # Update dropdowns
