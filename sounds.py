@@ -1,6 +1,7 @@
 from playsound import playsound
 import os
-path = os.path.abspath(os.getcwd()).strip().replace(" ", "").replace("//", "/")
+path = fr'{os.path.abspath(os.getcwd())}'
+print(path)
 
 '''
 LINK TO FIND SOUNDS: https://freesound.org/browse/tags/press/?page=2#sound
