@@ -11,3 +11,9 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+
+- rule:  Show capabilities anytimee user says help
+  steps:
+  - intent: request_help
+  - action: utter_help

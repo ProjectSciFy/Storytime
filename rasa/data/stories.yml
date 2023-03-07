@@ -2,12 +2,28 @@ version: "3.1"
 
 stories:
 
+- story:  happy path for story
+  steps:
+  - intent: greet
+  - action: utter_welcome
+  - intent: affirm
+  - action: utter_keywords
+  - intent: keywords
+  - action: utter_story_ready
+  
 - story: happy path
   steps:
   - intent: greet
   - action: utter_greet
   - intent: mood_great
   - action: utter_happy
+
+- story:  sad path for story
+  steps:
+  - intent: greet
+  - action: utter_welcome
+  - intent: deny
+  - action: utter_help
 
 - story: sad path 1
   steps:

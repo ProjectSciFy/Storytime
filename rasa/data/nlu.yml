@@ -38,6 +38,9 @@ nlu:
     - of course
     - that sounds good
     - correct
+    - ye
+    - please
+    - yep
 
 - intent: deny
   examples: |
@@ -89,3 +92,15 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: request_help
+  examples: |
+    - please help
+    - help me
+    - what can you do?
+    - can you help me?
+
+- intent: keywords
+  examples: |
+    - the four words are potato, bar, tree, train
+    - keywords: word1,word2,word3,word4
