@@ -104,3 +104,10 @@ nlu:
   examples: |
     - the four words are potato, bar, tree, train
     - keywords: word1,word2,word3,word4
+    - keywords: dog, dragon, castle, battle
+
+- intent: edit_story
+  examples: |
+    - can you edit the story?
+    - can we change the name of the main character
+    - move the story to be set on the beach

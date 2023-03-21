@@ -11,6 +11,7 @@ intents:
   - generate_story
   - request_help
   - keywords
+  - edit_story
 
 responses:
   utter_greet:
@@ -43,6 +44,9 @@ responses:
 
   utter_help:
   - text: "Welcome to storytime! I am capable of helping you generate and flip through short stories about topics you reccomend. I can also help you modify your interactive story experience by changing: tts, language, story length, color scheme, etc. "
+
+  utter_unable:
+  - text: "Sorry I am unable to modify the story.  Would you like to generate a new one?"
 
 session_config:
   session_expiration_time: 60

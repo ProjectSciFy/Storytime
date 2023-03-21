@@ -17,3 +17,9 @@ rules:
   steps:
   - intent: request_help
   - action: utter_help
+
+- rule: unable to do
+  steps:
+  - intent: edit_story
+  - action: utter_unable
+
