@@ -1,5 +1,5 @@
 import openai
-openai.api_key = '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'
+openai.api_key = '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'
 
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
@@ -13,13 +13,13 @@ https://platform.openai.com/docs/models/content-filter
 https://platform.openai.com/docs/guides/moderation/overview
 https://platform.openai.com/docs/guides/fine-tuning
 '''
-# response = openai.Completion.create(
-#   model="text-curie-001",
-#   prompt="write a short story about: magic and dragons",
-#   max_tokens=50
-# )
-# text = response['choices'][0]['text']
-# print(response, text)
+response = openai.Completion.create(
+    model="text-curie-001",
+    prompt="write a ten sentence story about: magic and dragons",
+    max_tokens=1000
+ )
+text = response['choices'][0]['text']
+print(response, text)
 
 '''
 IMAGE GENERATION: https://platform.openai.com/docs/guides/images/usage
