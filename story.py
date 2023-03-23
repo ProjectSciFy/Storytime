@@ -61,7 +61,10 @@ def updateStory(event_list: list):
     # load in a text file. Right now 1 sentence per line. 
     images = [image, image2]
     inputFile = open('story_text.txt', 'r')
+    print("in story.py")
+    print(inputFile)
     storyText = []
+    print("in story.py: ", inputFile)
     for line in inputFile: 
         storyText.append(line.replace('\n', " "))
     numOfEntries = len(storyText)

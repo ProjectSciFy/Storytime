@@ -13,14 +13,21 @@ https://platform.openai.com/docs/models/content-filter
 https://platform.openai.com/docs/guides/moderation/overview
 https://platform.openai.com/docs/guides/fine-tuning
 '''
-response = openai.Completion.create(
-    model="text-curie-001",
-    prompt="write a ten sentence story about: magic and dragons",
-    max_tokens=1000
- )
-text = response['choices'][0]['text']
-print(response, text)
 
+def generate_text(input1, input2, input3, input4): 
+    prompt_sentence = f"write short story on: {input1}, {input2}, {input3}, {input4}"
+    print(prompt_sentence)
+    response = openai.Completion.create(
+        model="text-curie-001",
+        #prompt="write a ten sentence story about: magic and dragons",
+        prompt=prompt_sentence,
+        max_tokens=1000
+    )
+    text = response['choices'][0]['text']
+    print(response, text)
+    return text
+
+#generate_text('dragons', 'magic', 'dinasours', 'dolphins')
 '''
 IMAGE GENERATION: https://platform.openai.com/docs/guides/images/usage
 '''

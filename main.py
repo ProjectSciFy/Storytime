@@ -6,6 +6,7 @@ import helpers as h
 import dropdown
 import gradient
 import inputbox
+from generate import generate_text
 pygame.init()
 pygame.font.init()
 
