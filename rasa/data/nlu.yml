@@ -1,5 +1,8 @@
 version: "3.1"
 
+pipeline:
+- name: "MitieEntityExtractor"
+
 nlu:
 - intent: greet
   examples: |
@@ -100,11 +103,9 @@ nlu:
     - what can you do?
     - can you help me?
 
-- intent: keywords
+- intent: print_keywords
   examples: |
-    - the four words are potato, bar, tree, train
-    - keywords: word1,word2,word3,word4
-    - keywords: dog, dragon, castle, battle
+    - print keywords
 
 - intent: edit_story
   examples: |

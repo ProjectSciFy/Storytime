@@ -75,8 +75,6 @@ output_path.open('w', encoding='utf-8').write(svg)
 
 
 
-
-
 pos_tags = ["PRON", "VERB", "NOUN", "ADJ", "ADP", "ADV", "CONJ", "DET", "NUM", "PRT"]
 colors = {"PRON": "blueviolet",
           "VERB": "lightpink",

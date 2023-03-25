@@ -12,6 +12,46 @@ intents:
   - request_help
   - keywords
   - edit_story
+  - print_keywords
+
+slots:
+  keyword_1:
+    type: text
+    mappings: 
+      - type: from_text
+        conditions: 
+        - active_loop: keyword_filling_form
+          requested_slot: keyword_1
+
+  keyword_2:
+    type: text
+    mappings: 
+      - type: from_text
+        conditions: 
+        - active_loop: keyword_filling_form
+          requested_slot: keyword_2
+  keyword_3:
+    type: text
+    mappings: 
+      - type: from_text
+        conditions: 
+        - active_loop: keyword_filling_form
+          requested_slot: keyword_3
+  keyword_4:
+    type: text
+    mappings: 
+      - type: from_text
+        conditions: 
+        - active_loop: keyword_filling_form
+          requested_slot: keyword_4
+
+forms:
+  keyword_filling_form:
+    required_slots:
+    - keyword_1
+    - keyword_2
+    - keyword_3
+    - keyword_4
 
 responses:
   utter_greet:
@@ -40,7 +80,7 @@ responses:
   - text: "Please enter 4 keywords for your story to be about"
 
   utter_story_ready:
-  - text: "Thanks! Your story in on the story page."
+  - text: "Thanks! Your story in on the story page with the keywords {keywords_slot}."
 
   utter_help:
   - text: "Welcome to storytime! I am capable of helping you generate and flip through short stories about topics you reccomend. I can also help you modify your interactive story experience by changing: tts, language, story length, color scheme, etc. "
@@ -48,6 +88,24 @@ responses:
   utter_unable:
   - text: "Sorry I am unable to modify the story.  Would you like to generate a new one?"
 
+  utter_ask_keyword_1:
+  - text: "Great! We want to hear what you want your story to be about! Please enter one keyword for your story."
+
+  utter_ask_keyword_2:
+  - text: "Great!We will need a few more. Please enter another keyword for your story."
+
+  utter_ask_keyword_3:
+  - text: "Awesome! Please enter another one."
+
+  utter_ask_keyword_4:
+  - text: "Amazing! One more keyword please!"
+
+  utter_keywords_output:
+  - text: "Your entered keywords are {keyword_1} {keyword_2} {keyword_3} {keyword_4}"
+
+actions:
+- action_say_keywords
+
 session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  session_expiration_time: 60 #value in minutes
+  carry_over_slots_to_new_session: false
