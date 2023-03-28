@@ -6,7 +6,6 @@ import dropdown
 import gradient
 import chatbox
 import chat
-import requests
 
 
 ''''''''''''''''''
@@ -96,8 +95,7 @@ chatWindow = chat.Chat(
     chatY,
     chatWidth,
     chatHeight,
-    pygame.font.SysFont(utl.Font, utl.font_size_small),
-    text = requests.post('http://localhost:5002/webhooks/rest/webhook', json={"sender": utl.session_id, "message": "hi"}).json()[0]['text'])
+    pygame.font.SysFont(utl.Font, utl.font_size_small))
 
 ''''''''''''''''''
 '                '
