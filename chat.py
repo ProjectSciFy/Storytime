@@ -1,8 +1,8 @@
 import pygame as pg
-import time
 
 class Chat():
-    def __init__(self, color_inactive, color_font, x, y, w, h, font, text=''):
+    def __init__(self, color_inactive, color_font, x, y, w, h, font):
+        self.allHistory = []
         self.color_inactive = color_inactive
         self.color_font = color_font
         self.rect = pg.Rect(x, y, w, h)
@@ -10,42 +10,91 @@ class Chat():
         self.y = y
         self.w = w
         self.h = h
-        self.text = text
-        self.txt_surface = font.render(text, True, self.color_font)
         self.font = font
         self.active = False
-        
-         
+        self.linespacing = -2
+        self.scroll_pos = 0
+        self.max_height = 572
+        self.font_height = self.font.size("Tg")[1]
+        self.num_messages = len(self.allHistory)
+        self.line_height = self.font_height + self.linespacing
+        self.max_messages = self.max_height // self.line_height
+        # Determine the first and last messages to display based on the scroll position
+        self.first_msg_index = max(self.num_messages - self.scroll_pos - self.max_messages, 0)
+        self.last_msg_index = max(self.num_messages - self.scroll_pos, 0)
+
     def draw(self, surf):
         pg.draw.rect(surf, self.color_inactive, self.rect, 2, border_radius=3)
         rect = self.rect
-        y = rect.top
-        lineSpacing = -2
-        fontHeight = self.font.size("Tg")[1]
-
-        text = self.text
-        while text:
-            i = 1
-            # determine if the row of text will be outside our area
-            if y + fontHeight > rect.bottom:
-                break
-            # determine maximum width of line
-            while self.font.size(text[:i])[0] < rect.width - 5 and i < len(text):
-                i += 1
-            # if we've wrapped the text, then adjust the wrap to the last word      
-            if i < len(text): 
-                i = text.rfind(" ", 0, i) + 1
-            surf.blit(self.font.render(text[:i], True, self.color_font), (rect.left + 5, y + 5))
-            y += fontHeight + lineSpacing
-            # remove the text we just blitted
-            text = text[i:]
-        
+        for i in range(self.first_msg_index, self.last_msg_index):
+            lines = self.wrap_text(self.allHistory[(self.last_msg_index - (i - self.first_msg_index) - 1)], self.font, self.w - 5)
+            num_lines = len(lines)
+            for j, line in enumerate(lines):
+                txt_surface = self.font.render(line, True, self.color_font)
+                text_rect = txt_surface.get_rect()
+                text_rect.x = rect.left + 5
+                text_rect.y = rect.bottom - ((i - self.first_msg_index) * (num_lines * self.line_height)) - ((num_lines - j - 1) * self.line_height) - 5 - self.line_height * 0.5 - (self.font_height + self.linespacing)/2
+                # Check if the text surface is above the chat box
+                if text_rect.y + self.font_height < rect.top:
+                    continue
+                surf.blit(txt_surface, text_rect)
 
     def update(self, events, text, isMsg, new_color_inactive, new_color_font, new_font):
         self.color_inactive = new_color_inactive
         self.color_font = new_color_font
         self.font = new_font
-        import utility as utl
-        if isMsg:
-            self.text = text
-        self.txt_surface = self.font.render(self.text, True, self.color_font)
+        self.font_height = self.font.size("Tg")[1]
+        self.line_height = self.font_height + self.linespacing
+        self.max_messages = self.max_height // self.line_height
+        if isMsg and len(text) > 0:
+            lines = self.wrap_text(text, self.font, self.w - 5)
+            for line in lines:
+                self.allHistory.append(line)
+        self.num_messages = len(self.allHistory)
+        # Determine the first and last messages to display based on the scroll position
+        self.first_msg_index = max(self.num_messages - self.scroll_pos - self.max_messages, 0)
+        self.last_msg_index = max(self.num_messages - self.scroll_pos, 0)
+        for event in events:
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_UP and self.num_messages > self.max_messages:
+                    if self.scroll_pos < self.num_messages - self.max_messages:
+                        self.scroll_pos += 1
+                elif event.key == pg.K_DOWN and self.num_messages > self.max_messages:
+                    if self.scroll_pos > 0:
+                        self.scroll_pos -= 1
+
+
+    def wrap_text(self, text, font, max_width):
+        ret = []
+        if font.size(text)[0] < max_width:
+            ret.append(text)
+        else:
+            words = text.split()
+            current_line = words[0]
+            for word in words[1:]:
+                if font.size(current_line + ' ' + word)[0] < max_width:
+                    current_line += ' ' + word
+                else:
+                    ret.append(current_line)
+                    current_line = word
+            ret.append(current_line)
+
+        # Check if each line needs to be further broken up by character
+        final_lines = []
+        for line in ret:
+            if font.size(line)[0] < max_width:
+                final_lines.append(line)
+            else:
+                chars = []
+                current_char = line[0]
+                for char in line[1:]:
+                    if font.size(current_char + char)[0] < max_width:
+                        current_char += char
+                    else:
+                        chars.append(current_char)
+                        current_char = char
+                chars.append(current_char)
+                final_lines.extend(chars)
+
+        return final_lines
+
