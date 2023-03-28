@@ -105,6 +105,7 @@ responses:
 
 actions:
 - action_say_keywords
+- action_reset_form
 
 session_config:
   session_expiration_time: 60 #value in minutes
