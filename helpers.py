@@ -1,6 +1,5 @@
 import pygame
 import utility as utl
-pygame.font.init()
 
 
 '''''''''''''''''
@@ -59,7 +58,7 @@ def displaySchemes():
         schemNum = 1
         # Print squares of each color scheme
         for scheme in colorschemes:
-            text_button = utl.FONT.render(f"Color Scheme #{schemNum}:" , True, "#ffffff")
+            text_button = utl.SysFont.render(f"Color Scheme #{schemNum}:" , True, "#ffffff")
             locx = 320
             locy += y_offset
             utl.MAIN_MENU_WINDOW.blit(text_button, (x_offset + offset, locy + offset))
@@ -98,4 +97,27 @@ def applyColorScheme(n, order=[0,1,2,3,4,5,6,7]):
 
 def drawBorder(surf: pygame.Surface):
     rect = pygame.Rect(0, 0, surf.get_width(), surf.get_height())
-    pygame.draw.rect(surf, utl.COLORSCHEME[Scheme("TEXT_NO_HOVER")], rect, 2)
+    pygame.draw.rect(surf, utl.colorscheme[Scheme("TEXT_NO_HOVER")], rect, 2)
+     
+def updateScheme(Scheme: str) -> list:
+    # COLOR SCHEME UPDATE
+    if Scheme.upper() == "ORIGINAL":
+        utl.MAIN_COLOR_SCHEME = 1
+    elif Scheme.upper() == "FOREST":
+        utl.MAIN_COLOR_SCHEME = 2
+    elif Scheme.upper() == "MOUNTAIN":
+        utl.MAIN_COLOR_SCHEME = 3
+    elif Scheme.upper() == "FIRE":
+        utl.MAIN_COLOR_SCHEME = 4
+    utl.colorscheme = applyColorScheme(utl.MAIN_COLOR_SCHEME) 
+    return utl.colorscheme
+    
+def updateFont(Font: str) -> tuple:
+    #FONT UPDATE
+    utl.SysFont = pygame.font.SysFont(Font, utl.font_size)
+    utl.SysSmallFont = pygame.font.SysFont(Font, utl.font_size_small)
+    return (utl.SysFont, utl.SysSmallFont)
+ 
+def updateSound(Sound: str) -> str:
+    utl.Sound = Sound.upper()
+    return utl.Sound
