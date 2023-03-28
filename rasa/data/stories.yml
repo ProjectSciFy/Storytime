@@ -2,23 +2,29 @@ version: "3.1"
 
 stories:
 
-- story:  happy path for story
+- story: happy path
   steps:
   - intent: greet
-  - action: utter_welcome
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
   - intent: affirm
-  - action: action_reset_form
-  - action: keyword_filling_form
-  - active_loop: keyword_filling_form
-  - slot_was_set:
-    - keyword_1: dog
-  - slot_was_set:
-    - keyword_2: lion
-  - slot_was_set:
-    - keyword_3: tiger
-  - slot_was_set:
-    - keyword_4: bear
-  - active_loop: null
-  - action: action_say_keywords
+  - action: utter_happy
 
-
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
