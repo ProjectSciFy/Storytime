@@ -48,5 +48,5 @@ def run():
 ''''''''''''''''''''''''''''''''''''
 
 import fadeIn as fi
-# fi.fadeInText()
+fi.fadeInText()
 run()
