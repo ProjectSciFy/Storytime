@@ -1,4 +1,6 @@
 import pygame as pg
+import requests
+import utility as utl
 
 class Chat():
     def __init__(self, color_inactive, color_font, x, y, w, h, font):
@@ -23,6 +25,8 @@ class Chat():
         self.first_msg_index = max(self.num_messages - self.scroll_pos - self.max_messages, 0)
         self.last_msg_index = max(self.num_messages - self.scroll_pos, 0)
 
+        self.send_chatbot("hi")
+
     def draw(self, surf):
         pg.draw.rect(surf, self.color_inactive, self.rect, 2, border_radius=3)
         rect = self.rect
@@ -39,6 +43,15 @@ class Chat():
                     continue
                 surf.blit(txt_surface, text_rect)
 
+    def send_chatbot(self, text):
+        r = requests.post('http://localhost:5002/webhooks/rest/webhook', json={"sender": utl.session_id, "message": text})
+        bot_message = ""
+        for i in r.json():
+            bot_message = bot_message + i['text']
+        bot_lines = self.wrap_text(bot_message, self.font, self.w - 5)
+        for line in bot_lines:
+            self.allHistory.append(line)
+
     def update(self, events, text, isMsg, new_color_inactive, new_color_font, new_font):
         self.color_inactive = new_color_inactive
         self.color_font = new_color_font
@@ -50,6 +63,7 @@ class Chat():
             lines = self.wrap_text(text, self.font, self.w - 5)
             for line in lines:
                 self.allHistory.append(line)
+            self.send_chatbot(text)
         self.num_messages = len(self.allHistory)
         # Determine the first and last messages to display based on the scroll position
         self.first_msg_index = max(self.num_messages - self.scroll_pos - self.max_messages, 0)
