@@ -1,5 +1,8 @@
 version: "3.1"
 
+pipeline:
+- name: "MitieEntityExtractor"
+
 nlu:
 - intent: greet
   examples: |
@@ -16,7 +19,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
 - intent: goodbye
   examples: |
     - cu
@@ -29,7 +31,6 @@ nlu:
     - see you around
     - bye bye
     - see you later
-
 - intent: affirm
   examples: |
     - yes
@@ -38,7 +39,9 @@ nlu:
     - of course
     - that sounds good
     - correct
-
+    - ye
+    - please
+    - yep
 - intent: deny
   examples: |
     - no
@@ -48,7 +51,6 @@ nlu:
     - don't like that
     - no way
     - not really
-
 - intent: mood_great
   examples: |
     - perfect
@@ -65,7 +67,6 @@ nlu:
     - so so perfect
     - so good
     - so perfect
-
 - intent: mood_unhappy
   examples: |
     - my day was horrible
@@ -82,10 +83,49 @@ nlu:
     - extremly sad
     - so saad
     - so sad
-
 - intent: bot_challenge
   examples: |
     - are you a bot?
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+- intent: request_help
+  examples: |
+    - please help
+    - help me
+    - what can you do?
+    - can you help me?
+- intent: print_keywords
+  examples: |
+    - print keywords
+- intent: edit_story
+  examples: |
+    - can you edit the story?
+    - can we change the name of the main character
+    - move the story to be set on the beach
+- intent: giberish
+  examples: |
+    - njknbjskrtldghjuotljhiorjgirldjgilrl
+    - dfodpjbiorjbioerjintpjhibodjrgilrjbiuljfbioxrjgirlzgijeozjognbfvdthyrjtukjmhnbgfvdfrgthyjumhngbfvdcfgrthyjuhmngbfvdcferghty
+    - r37igh3ia4lh8til485elghubrr;nafl
+    - blah
+    - blah blah blah
+    - gatigrgnijeowrnboe
+- intent: change_color_scheme
+  examples: |
+    - change to [forest](scheme).
+    - revert to the [original](scheme).
+    - change to [mountain](scheme).
+    - [fire](scheme)
+- intent: change_font
+  examples: |
+    - change to [verdana](font).
+    - revert to the [comic sans](font).
+    - change to [gillsans](font).
+    - [kannadam](font)
+- intent: change_sound
+  examples: |
+    - [enable](sound) sound
+    - [disable](sound)
+    - turn sound on [enable](sound)
+    - turn sound off [disable](sound)
