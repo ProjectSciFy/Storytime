@@ -13,15 +13,6 @@ intents:
   - keywords
   - edit_story
   - print_keywords
-  - giberish
-  - change_color_scheme
-  - change_font
-  - change_sound
-
-entities:
-  - scheme
-  - font
-  - sound
 
 slots:
   keyword_1:
@@ -53,41 +44,6 @@ slots:
         conditions: 
         - active_loop: keyword_filling_form
           requested_slot: keyword_4
-  scheme:
-    type: categorical
-    values:
-      - original
-      - forest
-      - mountain
-      - fire
-    initial_value: original
-    mappings: 
-      - type: from_entity
-        entity: scheme
-
-
-  font:
-    type: categorical
-    values:
-      - verdana
-      - gillsans
-      - comic sans
-      - kannadamn
-    initial_value: verdana
-    mappings: 
-      - type: from_entity
-        entity: font
-
-  sound:
-    type: categorical
-    values:
-      - enable
-      - disable
-    initial_value: enable
-    mappings: 
-      - type: from_entity
-        entity: sound
-
 
 forms:
   keyword_filling_form:
@@ -145,19 +101,7 @@ responses:
   - text: "Amazing! One more keyword please!"
 
   utter_keywords_output:
-  - text: "Your entered keywords are {keyword_1} {keyword_2} {keyword_3} {keyword_4} {scheme} {font} {sound}"
-
-  utter_dont_speak:
-  - text: "Sorry I don't speak giberish"
-
-  utter_color_changed:
-  - text: "Color scheme was changed to {scheme}.  Can I help with anything else?"
-
-  utter_font_changed:
-  - text: "Font was changed to {font}.  Anything else I can help with?"
-
-  utter_sound_changed:
-  - text: "Sound was changed to {sound}.  What else can I do?"
+  - text: "Your entered keywords are {keyword_1} {keyword_2} {keyword_3} {keyword_4}"
 
 actions:
 - action_say_keywords

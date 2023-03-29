@@ -1,7 +1,5 @@
 import pygame as pg
 import time
-import requests
-import utility as utl
 
 class Chat():
     def __init__(self, color_inactive, color_font, x, y, w, h, font, text=''):
@@ -51,10 +49,5 @@ class Chat():
 
    
         if isMsg:
-            r = requests.post('http://localhost:5002/webhooks/rest/webhook', json={"sender":  utl.session_id, "message": text})
-            for i in r.json():
-                bot_message = i['text']
-                self.text = text + " response: " + bot_message 
-
-            #self.text = text
+            self.text = text
         self.txt_surface = self.font.render(self.text, True, self.color_font)
