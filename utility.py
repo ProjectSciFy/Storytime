@@ -14,10 +14,10 @@ STORY_WINDOW = pygame.display.set_mode(RESOLUTION)
 MAIN_MENU_WINDOW = pygame.display.set_mode(RESOLUTION)
 in_main_window = True
 Scheme = "Original"
-Font = "Verdana"
+Font = "Monaco"
 Sound = "Enable"
 storyLine = 0
-font_size = 30
+font_size = 28
 font_size_small = 22
 SysFont = pygame.font.SysFont(Font,font_size)
 SysSmallFont = pygame.font.SysFont(Font,font_size_small)
@@ -34,3 +34,5 @@ MAIN_COLOR_SCHEME = 1
 #   colorscheme[6]-Text/Outlines:       Hover       Light
 #   colorscheme[7]-Extra2
 colorscheme = []
+storyText = list()
+storyImages = list()

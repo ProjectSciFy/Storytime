@@ -42,13 +42,20 @@ colorDropdown = dropdown.DropDown(
     dropdownX, dropdownY[0], dropdownWidth, dropdownHeight, 
     pygame.font.SysFont(utl.Font, utl.font_size_small), 
     "Color Scheme:", ["Original", "Forest", "Mountain", "Fire"], "color")
+# fontDropdown = dropdown.DropDown(
+#     [button_dark, button_light],
+#     [utl.colorscheme[h.Scheme("BUTTON_NO_HOVER")], utl.colorscheme[h.Scheme("BUTTON_HOVER")]],
+#     [utl.colorscheme[h.Scheme("TEXT_NO_HOVER")], utl.colorscheme[h.Scheme("TEXT_HOVER")]],
+#     dropdownX, dropdownY[1], dropdownWidth, dropdownHeight, 
+#     pygame.font.SysFont(utl.Font, utl.font_size_small), 
+#     "Font:", ["Verdana", "Comic Sans", "Kannadamn"], "font")
 fontDropdown = dropdown.DropDown(
     [button_dark, button_light],
     [utl.colorscheme[h.Scheme("BUTTON_NO_HOVER")], utl.colorscheme[h.Scheme("BUTTON_HOVER")]],
     [utl.colorscheme[h.Scheme("TEXT_NO_HOVER")], utl.colorscheme[h.Scheme("TEXT_HOVER")]],
     dropdownX, dropdownY[1], dropdownWidth, dropdownHeight, 
     pygame.font.SysFont(utl.Font, utl.font_size_small), 
-    "Font:", ["Verdana", "Gillsans", "Comic Sans", "Kannadamn"], "font")
+    "Font:", ["Monaco", "DejaVu Sans Mono", "Menlo"], "font")
 soundDropdown = dropdown.DropDown(
     [button_dark, button_light],
     [utl.colorscheme[h.Scheme("BUTTON_NO_HOVER")], utl.colorscheme[h.Scheme("BUTTON_HOVER")]],
