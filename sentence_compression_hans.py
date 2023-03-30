@@ -1,7 +1,7 @@
 # https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/summarization/quickstart?tabs=document-summarization&pivots=programming-language-python
 # https://portal.azure.com/#@buckeyemail.osu.edu/resource/subscriptions/138c471a-6ebc-40d2-bb27-014c71c03aae/resourceGroups/hanscapstone/providers/Microsoft.CognitiveServices/accounts/hanscapstone/cskeys
 
-# this file is testing the 
+# this file is testing the smmarize result for the story  
 
 key = "bed2fcd6ac06464989b9dd71f5d0c382"
 endpoint = "https://hanscapstone.cognitiveservices.azure.com/"
