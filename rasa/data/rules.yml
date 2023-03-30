@@ -11,3 +11,60 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+- rule:  Show capabilities anytime user says help
+  steps:
+  - intent: request_help
+  - action: utter_help
+
+- rule: unable to do
+  steps:
+  - intent: edit_story
+  - action: utter_unable
+
+- rule: greet
+  steps:
+  - intent: greet
+  - action: utter_welcome
+
+- rule: activate form
+  steps:
+  - intent: affirm
+  - action: action_reset_form
+  - action: keyword_filling_form
+  - active_loop: keyword_filling_form
+
+- rule: submit form
+  condition:
+  - active_loop: keyword_filling_form
+  steps:
+  - action: keyword_filling_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_say_keywords
+
+- rule: get keywords
+  steps:
+  - intent: print_keywords
+  - action: utter_keywords_output
+
+- rule: don't speak giberish
+  steps:
+  - intent: giberish
+  - action: utter_dont_speak
+
+- rule: change color scheme
+  steps:
+  - intent: change_color_scheme
+  - action: utter_color_changed
+
+- rule: change font
+  steps:
+  - intent: change_font
+  - action: utter_font_changed
+
+- rule: change sound 
+  steps:
+  - intent: change_sound
+  - action: utter_sound_changed

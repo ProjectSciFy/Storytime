@@ -1,26 +1,22 @@
 import pygame
-# import dropdown
 import sounds
 import utility as utl
 import helpers as h
-import main
-import story
-import inputbox
-import fadeIn as fi
 pygame.init()
-pygame.font.init()
+utl.MAIN_COLOR_SCHEME = 1
+utl.colorscheme = h.applyColorScheme(utl.MAIN_COLOR_SCHEME)   
 
-def run():
-    in_main_window = True
+def run(): 
+    import main
+    import story
     
+    in_main_window = True
     running = True
     while running:
         mouse = pygame.mouse.get_pos()
         event_list = pygame.event.get()
         if in_main_window:
-            viewStoryButtonRect, genre, language = main.updateMain(event_list)
-            utl.Genre = genre
-            utl.Language = language
+            viewStoryButtonRect = main.updateMain(event_list)
         else:
             backToMenuButtonRect = story.updateStory(event_list)
         
@@ -28,10 +24,12 @@ def run():
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if in_main_window and viewStoryButtonRect.collidepoint(mouse):
-                    sounds.playSound("success")
+                    if utl.Sound.upper() == "ENABLE":
+                        sounds.playSound("success")
                     in_main_window = False
                 elif not in_main_window and backToMenuButtonRect.collidepoint(mouse):
-                    sounds.playSound("success")
+                    if utl.Sound.upper() == "ENABLE":
+                        sounds.playSound("success")
                     in_main_window = True
             if event.type == pygame.QUIT:
                 running = False
@@ -49,10 +47,6 @@ def run():
 
 ''''''''''''''''''''''''''''''''''''
 
-#Change the "1" argument in the line below to "2" to try the second color scheme from "Colorschemes.txt".
-#You will need both line 152 and 153 un-commented in order to test the color schemes in "Colorschemes.txt".
-
-#Un-comment the line below to change color schemes
-utl.COLORSCHEME = h.applyColorScheme(utl.MAIN_COLOR_SCHEME)
+import fadeIn as fi
 fi.fadeInText()
 run()

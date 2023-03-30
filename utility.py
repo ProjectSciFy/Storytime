@@ -1,5 +1,6 @@
 import pygame
-import sounds as s
+import string
+import random
 pygame.font.init()
 
 '''''''''''''''''
@@ -14,16 +15,16 @@ RESOLUTION = (WINDOW_WIDTH, WINDOW_HEIGHT)
 STORY_WINDOW = pygame.display.set_mode(RESOLUTION)
 MAIN_MENU_WINDOW = pygame.display.set_mode(RESOLUTION)
 in_main_window = True
-FONT_SIZE = 30
-FONT_SIZE_SMALL = 24
-FONT = pygame.font.SysFont('Verdana',FONT_SIZE)
-SMALL_FONT = pygame.font.SysFont('Verdana',FONT_SIZE_SMALL)
-BUTTON_EXPAND_BUFFER = 5
-MAIN_COLOR_SCHEME = 5
-Genre = ""
-Length = ""
-Language = ""
+Scheme = "Original"
+Font = "Monaco"
+Sound = "Enable"
 storyLine = 0
+font_size = 28
+font_size_small = 22
+SysFont = pygame.font.SysFont(Font,font_size)
+SysSmallFont = pygame.font.SysFont(Font,font_size_small)
+BUTTON_EXPAND_BUFFER = 5
+MAIN_COLOR_SCHEME = 1
 # COLOR SCHEME:
 # Color order:
 #   colorscheme[0]-Main background:                 Light
@@ -34,4 +35,8 @@ storyLine = 0
 #   colorscheme[5]-Text/Outlines:       No hover    Dark
 #   colorscheme[6]-Text/Outlines:       Hover       Light
 #   colorscheme[7]-Extra2
-COLORSCHEME = ["#dfd1d3", "#f5e6e8", "#d5c6e0", "#aaa1c8", "#967aa1", "#192a51", "#2e3d61", "#414f6f"]
+colorscheme = []
+storyText = list()
+storyImages = list()
+session_id = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k=7))
