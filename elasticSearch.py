@@ -8,16 +8,31 @@ inserts data into the index, retrieves data from the index, and loads JSON data 
 
 POST
     insert_to_index(query_sentence, author, title, content, image_folder_path)  
-        inserts data into the Elasticsearch index with the specified fields.
+        Inserts data into the Elasticsearch index with the specified fields.
+        Arguments:
+            query_sentence
+                type: string
+            author
+                type: string
+            title
+                type: string
+            content
+                type: string 
+            image_folder_path
+                type: string
 
 GET
     query_story_by_id(id)
         queries Elasticsearch for a story with the specified ID and returns its contents.
+        type: int
 
 DELETE
     delete_story_by_id(id)
         deletes a story from Elasticsearch based on its ID
-    
+        type: int
+
+
+others:
     connect_elasticsearch()
         connects to the Elasticsearch instance and returns a client object.
 
