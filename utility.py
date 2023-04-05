@@ -1,4 +1,6 @@
 import pygame
+import string
+import random
 pygame.font.init()
 
 '''''''''''''''''
@@ -36,3 +38,5 @@ MAIN_COLOR_SCHEME = 1
 colorscheme = []
 storyText = list()
 storyImages = list()
+session_id = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k=7))
