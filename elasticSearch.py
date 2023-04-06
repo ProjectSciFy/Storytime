@@ -260,7 +260,7 @@ if __name__ == "__main__":
 
 #     insert_to_index(query_sentence, author, title, content, image_folder_path)
 
-# print_all_data()
+    print_all_data()
 
     # print(get_largest_id())
-    print(query_story_by_id(1))
+    # print(query_story_by_id(1))
