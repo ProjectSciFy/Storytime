@@ -56,13 +56,15 @@ IMAGE GENERATION: https://platform.openai.com/docs/guides/images/usage
 # # Display the image using the Pillow library
 # image.show()
 
+def returnToRasa(keywords):
+  return " ".join(keywords)
 
 def generateSampleStory(storyNum: int) -> list:
   '''
   storyNum: input integer - 1st story is given by storyNum = 1.
   '''
   storyNumber = storyNum - 1
-  s = h.readTestStories("temp.txt")[storyNumber].split(".")
+  s = h.readTestStories("../temp.txt")[storyNumber].split(".")
   text = list()
   images = list()
   # STORY TEXT

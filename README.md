@@ -5,7 +5,7 @@ Generate a brief story (both written and pictoral) with a plot based on several 
 
 to run project must run the actions server and rasa seperatly, then UI.py.  
 
-run the followung within the rasa folder
+run the following within the rasa folder
 `rasa run actions`
 `rasa run -m models --endpoints endpoints.yml --port 5002 --credentials credentials.yml`
 
