@@ -1,10 +1,12 @@
 import pygame as pg
 import requests
 import utility as utl
+import helpers as h
 
 class Chat():
     def __init__(self, color_inactive, color_font, x, y, w, h, font):
         self.allHistory = []
+        self.isRASA = []
         self.color_inactive = color_inactive
         self.color_font = color_font
         self.rect = pg.Rect(x, y, w, h)
@@ -35,6 +37,9 @@ class Chat():
             num_lines = len(lines)
             for j, line in enumerate(lines):
                 txt_surface = self.font.render(line, True, self.color_font)
+                index = (self.last_msg_index - (i - self.first_msg_index) - 1) + j
+                if self.isRASA[index] == True:
+                    txt_surface = self.font.render(line, True, utl.colorscheme[h.Scheme("TEXT_RASA")])
                 text_rect = txt_surface.get_rect()
                 text_rect.x = rect.left + 5
                 text_rect.y = rect.bottom - ((i - self.first_msg_index) * (num_lines * self.line_height)) - ((num_lines - j - 1) * self.line_height) - 5 - self.line_height * 0.5 - (self.font_height + self.linespacing)/2
@@ -51,6 +56,7 @@ class Chat():
         bot_lines = self.wrap_text(bot_message, self.font, self.w - 5)
         for line in bot_lines:
             self.allHistory.append(line)
+            self.isRASA.append(True)
 
     def update(self, events, text, isMsg, new_color_inactive, new_color_font, new_font):
         self.color_inactive = new_color_inactive
@@ -63,6 +69,7 @@ class Chat():
             lines = self.wrap_text(text, self.font, self.w - 5)
             for line in lines:
                 self.allHistory.append(line)
+                self.isRASA.append(False)
             self.send_chatbot(text)
         self.num_messages = len(self.allHistory)
         # Determine the first and last messages to display based on the scroll position
