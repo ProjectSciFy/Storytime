@@ -160,6 +160,38 @@ def delete_story_by_id(id):
     
 
 
+def get_largest_id():
+    """
+    Searches for the largest ID in the Elasticsearch index.
+    Returns:
+        The largest ID found in the Elasticsearch index.
+    """
+    client = connect_elasticsearch()
+    index_name = INDEX_NAME
+
+    # Search for the largest ID
+    search_query = {
+        "query": {
+            "match_all": {}
+        },
+        "sort": [
+            {
+                "id": {
+                    "order": "desc"
+                }
+            }
+        ]
+    }
+    result = client.search(index=index_name, body=search_query, size=1)
+    hits = result.get("hits", {}).get("hits", [])
+    if hits:
+        largest_id = hits[0]["_source"].get("id", 0)
+    else:
+        largest_id = 0
+
+    return largest_id
+
+
 def insert_to_index(query_sentence, author, title, content, image_folder_path):
     """
     Inserts data into the Elasticsearch index with the specified fields.
@@ -179,27 +211,9 @@ def insert_to_index(query_sentence, author, title, content, image_folder_path):
     client = connect_elasticsearch()
     index_name = INDEX_NAME
 
-    #get the largest id in the elasticSearch index
-    search_query = {
-        "query": {
-            "match_all": {}
-        },
-        "sort": [
-            {
-                "id": {
-                    "order": "desc"
-                }
-            }
-        ]
-    }
-    result = client.search(index=index_name, body=search_query, size=1)
-    largest_id = result['hits']['hits'][0]['_source']['id']
-    if not largest_id:
-        largest_id = 1
-    else:  
-        largest_id = largest_id + 1
-
-    id = largest_id
+    # Get the largest ID
+    largest_id = get_largest_id()
+    id = largest_id + 1
 
     item = {
         "id": id,
@@ -249,7 +263,9 @@ def load_json_data():
     print(response)
 
 
-if __name__ == "__main__":   
+
+
+# if __name__ == "__main__":   
 #     create_index()
      
 #     query_sentence = "generate a story the talks about pig honey and bear"
@@ -260,7 +276,8 @@ if __name__ == "__main__":
 
 #     insert_to_index(query_sentence, author, title, content, image_folder_path)
 
-    print_all_data()
+    # print_all_data()
 
     # print(get_largest_id())
     # print(query_story_by_id(1))
+    # print(get_largest_id())
