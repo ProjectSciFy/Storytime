@@ -47,7 +47,7 @@ def run():
         # Check for any button pushes or program closure
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if in_main_window and viewStoryButtonRect.collidepoint(mouse):
+                if in_main_window and viewStoryButtonRect.collidepoint(mouse) and len(utl.storyText) > 0:
                     if utl.Sound.upper() == "ENABLE":
                         sounds.playSound("success")
                     in_main_window = False

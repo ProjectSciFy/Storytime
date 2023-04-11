@@ -138,7 +138,7 @@ def updateMain(event_list: list):
     mouse = pygame.mouse.get_pos()
     
     # View story button interior (hover or no hover)
-    if viewStoryButtonRect.collidepoint(mouse):
+    if viewStoryButtonRect.collidepoint(mouse) and len(utl.storyText) > 0:
         pygame.draw.rect(utl.MAIN_MENU_WINDOW, button_light, viewStoryButtonRect, border_radius=3)
         utl.MAIN_MENU_WINDOW.blit(text_button_light, text_button_light.get_rect(center = viewStoryButtonRect.center))
         pygame.draw.rect(utl.MAIN_MENU_WINDOW, utl.colorscheme[h.Scheme("OUTLINE_HOVER")], viewStoryButtonRect, 2, 3)
