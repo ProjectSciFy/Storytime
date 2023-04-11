@@ -37,7 +37,8 @@ class Chat():
             num_lines = len(lines)
             for j, line in enumerate(lines):
                 txt_surface = self.font.render(line, True, self.color_font)
-                if self.isRASA[j] == False:
+                index = (self.last_msg_index - (i - self.first_msg_index) - 1) + j
+                if self.isRASA[index] == True:
                     txt_surface = self.font.render(line, True, utl.colorscheme[h.Scheme("TEXT_RASA")])
                 text_rect = txt_surface.get_rect()
                 text_rect.x = rect.left + 5

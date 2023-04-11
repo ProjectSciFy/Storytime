@@ -69,11 +69,10 @@ slots:
   font:
     type: categorical
     values:
-      - verdana
-      - gillsans
-      - comic sans
-      - kannadamn
-    initial_value: verdana
+      - monaco
+      - dejavu sans mono
+      - menlo
+    initial_value: monaco
     mappings: 
       - type: from_entity
         entity: font
@@ -162,6 +161,9 @@ responses:
 actions:
 - action_say_keywords
 - action_reset_form
+- action_update_color
+- action_update_font
+- action_update_sound
 
 session_config:
   session_expiration_time: 60 #value in minutes
