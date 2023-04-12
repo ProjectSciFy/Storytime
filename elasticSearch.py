@@ -150,6 +150,7 @@ def delete_story_by_id(id):
     client = connect_elasticsearch()
     index_name = INDEX_NAME
     
+
     try:
         client.delete(index=index_name, id=id)
         print(f"Deleted story with id {id}")
@@ -277,7 +278,10 @@ def load_json_data():
 #     insert_to_index(query_sentence, author, title, content, image_folder_path)
 
     # print_all_data()
-
+    # for i in range (6, get_largest_id()):
+    # query_story_by_id(1)
+    # delete_story_by_id(1)  
+        
     # print(get_largest_id())
     # print(query_story_by_id(1))
     # print(get_largest_id())

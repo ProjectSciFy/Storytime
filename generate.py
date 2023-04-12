@@ -1,7 +1,4 @@
 """
-bug needs to be fixed: i dont have a avalable openai key anymore
-can futher add author as input to the generate story '
-
 This code contains functions to generate a story and corresponding images based on given keywords, using the OpenAI text-davinci-003 model and the Dall-E API. 
 It also includes a function to insert the generated story and images into an Elasticsearch index.
 """
@@ -11,13 +8,15 @@ import pygame
 import requests
 from PIL import Image
 from io import BytesIO
+from nltk.tokenize import sent_tokenize
 import openai
 import nltk
 import os
 import elasticSearch 
+from math import ceil
 
 # Set the OpenAI API key
-openai.api_key = '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'
+openai.api_key = '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'
 
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
@@ -47,7 +46,7 @@ def generate_story(keywords):
   response = openai.Completion.create(
     model="text-davinci-003",
     prompt=prompt,
-    max_tokens=10
+    max_tokens=1000
   )
   return response.choices[0].text.strip()
 
@@ -66,12 +65,12 @@ def generate_title(story):
   response = openai.Completion.create(
     model="text-davinci-003",
     prompt=prompt,
-    max_tokens=5
+    max_tokens=15
   )
   return response.choices[0].text.strip()
 
 
-def generate_images(keywords, image_count):
+def generate_images(story):
   """
   Generate a set of images based on the given keywords and image count using the OpenAI Dall-E API.
 
@@ -82,29 +81,97 @@ def generate_images(keywords, image_count):
   Returns:
   A list of PIL Image objects containing the generated images.
   """
+  batches = 0
+  image_urls = []
+
   try:
-    img = openai.Image.create(
-      prompt=keywords + " cartoon",
-      n=image_count,
-      size="512x512"
-    )
-    return [Image.open(BytesIO(image_bytes)) for image_bytes in img.get("data")]
+    while not image_urls:
+      batches+=1
+      prompts = make_batch_prompt(story, batches)
+
+      for prompt in prompts:
+        batch_size = len(nltk.sent_tokenize(prompt))
+
+        if batch_size > 10:
+          # the api only accept max size 10 for one batch of generation
+          break
+
+        prompt_str = "cartoon " + str(prompt)
+        img = openai.Image.create(
+          prompt= prompt_str,
+          n=batch_size,
+          size="512x512"
+        )
+
+        # Add the image URLs to the list
+        for data in img["data"]:
+          image_urls.append(data["url"])
+        
+
+    print(image_urls)
+    return image_urls
+  
   except:
+    print("Error generating images")
     return []
+  
+
+def make_batch_prompt(story, batches): 
+  """
+  Tokenizes the given story into individual sentences, and groups them into batches of sentences. Each batch is then
+  combined into a paragraph, and a list of paragraphs is returned.
+
+  Args:
+    story (str): The story to tokenize and group into batches.
+    batches (int): The number of batches to split the sentences into.
+
+  Returns:
+    A list of strings, where each string represents a paragraph of sentences.
+  """
+  # Tokenize the paragraph into individual sentences
+  sentences_list = sent_tokenize(story)
+
+  # Calculate how many sentences should be included in each batch
+  sentence_per_paragraph = ceil(len(sentences_list) / batches)
+
+  # Create a list of paragraphs, each containing a batch of sentences
+  paragraphs = []
+  for start_index in range(0, len(sentences_list), sentence_per_paragraph):
+    start = start_index
+    end = min(len(sentences_list), start_index + sentence_per_paragraph)
+    slice_of_sentences = sentences_list[start:end]
+    paragraph = ' '.join(slice_of_sentences)
+    paragraphs.append(paragraph)
+
+  # Return the list of paragraphs
+  return paragraphs
 
 
-def generateSampleStory(keywords: str) -> list:
+def generateSampleStory(keywords: str, author: str) -> list:
+  """
+  Generate a story based on the given keywords, and save the story and associated images to disk and Elasticsearch.
+
+  Args:
+  keywords -- A string containing the keywords for the story.
+  author -- A string containing the author name for the story.
+
+  Returns:
+  A list containing two elements:
+      1. A list of file paths to the generated images.
+      2. A list of sentences in the generated story.
+  """
   # Generate a story based on the given keywords
-  story = generate_story(keywords)
+  story = generate_story(keywords).replace("\n", " ").replace("  ", " ")
 
   # Split the story into sentences using the Natural Language Toolkit (nltk)
   sentences = nltk.sent_tokenize(story) if story else []
 
-  # Determine the number of images to generate based on the number of sentences or the number of keywords
-  image_count = len(sentences) if sentences else len(keywords.split())
+  print("this is the sentences ")
+  print(sentences)
+  print("\n")
 
   # Generate a set of images based on the given keywords and image count
-  images = generate_images(keywords, image_count)
+  images = generate_images(story)
 
   # Generate a title for the story using the OpenAI text-davinci-003 model
   storyTitle = generate_title(story)
@@ -113,21 +180,29 @@ def generateSampleStory(keywords: str) -> list:
   storyNumber = elasticSearch.get_largest_id() + 1
 
   # Save each generated image to a file
-  for i, image in enumerate(images, 1):
-    filename = f"./images/story_{storyNumber}/sentence_{i}.png"
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
-    image.save(filename)
+  image_folder_path = f"./images/story_{storyNumber}"
+  if not os.path.exists(image_folder_path):
+    os.makedirs(image_folder_path)
+
+  # Loop over URLs and download/save each image
+  image_paths = []
+  for i, url in enumerate(images):
+      response = requests.get(url)
+      image_paths.append(f"{image_folder_path}/sentence_{i}.png")
+      with open(f"{image_folder_path}/sentence_{i}.png", "wb") as f:
+          f.write(response.content)
 
   # Set the author name and image folder path for the story, and add it to the Elasticsearch index
-  author = "Hans"
-  image_folder_path = f"./images/story_{storyNumber}"
   elasticSearch.insert_to_index(keywords, author, storyTitle, story, image_folder_path)
 
   # Return a list of tuples containing each sentence of the story and its corresponding image
-  return [images, sentences]
+  return [image_paths, sentences]
 
 
 
-# if __name__ == "__main__":  
-#   generateSampleStory("cat dog cake")
+if __name__ == "__main__":  
+  generateSampleStory("pig eat flower", "John")
+      
+
+
 
