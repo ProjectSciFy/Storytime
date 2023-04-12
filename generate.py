@@ -1,6 +1,22 @@
 """
-This code contains functions to generate a story and corresponding images based on given keywords, using the OpenAI text-davinci-003 model and the Dall-E API. 
-It also includes a function to insert the generated story and images into an Elasticsearch index.
+This file provides function generateSampleStory(keyword_string, author_name_string)
+
+
+  generateSampleStory(keywords, author)
+    Generate a story based on the given keywords, and save the story and associated images to disk and Elasticsearch.
+
+    Args:
+    keywords -- A string containing the keywords for the story.
+    author -- A string containing the author name for the story.
+
+    Returns:
+    A list containing two elements:
+        1. A list of file paths to the generated images.
+        2. A list of sentences in the generated story.
+
+
+    Example usage:
+      images, sentences = generateSampleStory("mystery novel", "Jane Doe")
 """
 
 import helpers as h
@@ -16,7 +32,7 @@ import elasticSearch
 from math import ceil
 
 # Set the OpenAI API key
-openai.api_key = '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'
+openai.api_key = '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'
 
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
@@ -65,7 +81,7 @@ def generate_title(story):
   response = openai.Completion.create(
     model="text-davinci-003",
     prompt=prompt,
-    max_tokens=15
+    max_tokens=20
   )
   return response.choices[0].text.strip()
 
@@ -177,7 +193,7 @@ def generateSampleStory(keywords: str, author: str) -> list:
   storyTitle = generate_title(story)
 
   # Get the largest story ID in the Elasticsearch index and add 1 to generate a new ID for the current story
-  storyNumber = elasticSearch.get_largest_id() + 1
+  storyNumber = elasticSearch.get_largest_storyNumber() + 1
 
   # Save each generated image to a file
   image_folder_path = f"./images/story_{storyNumber}"
@@ -196,12 +212,14 @@ def generateSampleStory(keywords: str, author: str) -> list:
   elasticSearch.insert_to_index(keywords, author, storyTitle, story, image_folder_path)
 
   # Return a list of tuples containing each sentence of the story and its corresponding image
+  print(image_paths)
   return [image_paths, sentences]
 
 
 
-if __name__ == "__main__":  
-  generateSampleStory("pig eat flower", "John")
+# for testing purpose
+# if __name__ == "__main__":  
+#   generateSampleStory("sneeze cat jacket", "Gal Pinhasi")
       
 
 

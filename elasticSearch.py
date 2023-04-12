@@ -22,13 +22,13 @@ POST
                 type: string
 
 GET
-    query_story_by_id(id)
-        queries Elasticsearch for a story with the specified ID and returns its contents.
+    query_story_by_storyNumber(storyNumber)
+        queries Elasticsearch for a story with the specified storyNumber and returns its contents.
         type: int
 
 DELETE
-    delete_story_by_id(id)
-        deletes a story from Elasticsearch based on its ID
+    delete_story_by_storyNumber(storyNumber)
+        deletes a story from Elasticsearch based on its storyNumber
         type: int
 
 
@@ -52,9 +52,9 @@ from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import NotFoundError
 import json
 
-CLOUD_ID = "23d32ecdc6f74baeacef270609a9f7b9:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvJDRiZjMwZjg4NTY5MTQzMjI5MjZiN2ZhNWRhZGMzOWY1JDlkZWVlOGNhNGM0NDQ4NWFiZDRlMTI5N2MyOGVhN2I1"
+CLOUD_ID = "StoryTime:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRjZGZhNmVlODBkNTE0MTFjOTE3Zjg0Nzg5NmI3MzBiMyRjZWFmZGRjYjA1YjQ0OTJkYjU4OGQxNjMwNDg2MWI5ZA=="
 USERNAME = "elastic"
-PASSWORD = "M8T3yNGiPxmGNDO4mDhWnyxs"
+PASSWORD = "3RPssfQZja8g1VmzoiFhbH7q"
 INDEX_NAME = "storytime_index"
 
 def connect_elasticsearch():
@@ -94,7 +94,7 @@ def create_index():
         },
         "mappings": {
             "properties": {
-                "id": {
+                "storyNumber": {
                     "type": "integer"
                 },
                 "keywords": {
@@ -128,56 +128,74 @@ def create_index():
     client.indices.create(index=index_name, body=settings)
     print(client.indices.get(index=index_name))
 
-def query_story_by_id(id):
+def query_story_by_storyNumber(storyNumber):
     """
-    This function queries Elasticsearch for a story with the specified ID and returns its contents.
+    This function queries Elasticsearch for a story with the specified storyNumber and returns its contents.
     """
     client = connect_elasticsearch()
     index_name = INDEX_NAME
 
-    try:
-        res = client.get(index=index_name, id=id)
-        return res["_source"]
-    except NotFoundError:
-        print(f"Story with ID {id} not found")
+    query = {
+        "query": {
+            "match": {
+                "storyNumber": storyNumber
+            }
+        }
+    }
+    res = client.search(index=index_name, body=query)
+    hits = res['hits']['hits']
+    # print(type(hits[0]['_source']['storyNumber']))
+
+    if hits:
+        print(hits[0]['_source'])
+        return hits[0]['_source']
+    else:
         return None
 
 
-def delete_story_by_id(id):
+
+def delete_story_by_storyNumber(del_storyNumber):
     """
-    This function deletes a story from Elasticsearch based on its ID
+    This function deletes a story from Elasticsearch based on its storyNumber
     """
     client = connect_elasticsearch()
     index_name = INDEX_NAME
-    
 
+    query = {
+        "query": {
+            "match": {
+                "storyNumber": del_storyNumber
+            }
+        }
+    }
+    
     try:
-        client.delete(index=index_name, id=id)
-        print(f"Deleted story with id {id}")
+        client.delete_by_query(index=index_name, body=query)
+        print(f"Delete story with storyNumber {del_storyNumber}")
     except NotFoundError:
-        print(f"Story with id {id} not found")
+        print(f"Story with storyNumber {del_storyNumber} not found")
     except Exception as e:
-        print(f"Error deleting story with id {id}: {e}")
+        print(f"Error deleting story with storyNumber {del_storyNumber}: {e}")
     
 
 
-def get_largest_id():
+def get_largest_storyNumber():
     """
-    Searches for the largest ID in the Elasticsearch index.
+    Searches for the largest storyNumber in the Elasticsearch index.
     Returns:
-        The largest ID found in the Elasticsearch index.
+        The largest storyNumber found in the Elasticsearch index.
     """
     client = connect_elasticsearch()
     index_name = INDEX_NAME
 
-    # Search for the largest ID
+    # Search for the largest storyNumber
     search_query = {
         "query": {
             "match_all": {}
         },
         "sort": [
             {
-                "id": {
+                "storyNumber": {
                     "order": "desc"
                 }
             }
@@ -186,11 +204,11 @@ def get_largest_id():
     result = client.search(index=index_name, body=search_query, size=1)
     hits = result.get("hits", {}).get("hits", [])
     if hits:
-        largest_id = hits[0]["_source"].get("id", 0)
+        largest_storyNumber = hits[0]["_source"].get("storyNumber", 0)
     else:
-        largest_id = 0
+        largest_storyNumber = 0
 
-    return largest_id
+    return largest_storyNumber
 
 
 def insert_to_index(query_sentence, author, title, content, image_folder_path):
@@ -208,16 +226,22 @@ def insert_to_index(query_sentence, author, title, content, image_folder_path):
             image_folder_path
                 -> stores the path that stores the path of this story
     """
-
     client = connect_elasticsearch()
     index_name = INDEX_NAME
 
-    # Get the largest ID
-    largest_id = get_largest_id()
-    id = largest_id + 1
+    # Get the largest storyNumber
+    largest_storyNumber = get_largest_storyNumber()
+    storyNumber = largest_storyNumber + 1
+
+    storyNumber = int(storyNumber)
+    query_sentence = str(query_sentence)
+    author = str(author)
+    title = str(title)
+    content = str(content)
+    image_folder_path = str(image_folder_path)
 
     item = {
-        "id": id,
+        "storyNumber": storyNumber,
         "keywords": {
             "query_sentence": query_sentence
         },
@@ -252,7 +276,7 @@ def load_json_data():
         action = {
             'index': {
                 '_index': index_name,
-                '_id': item['id'],
+                'storyNumber': item['storyNumber'],
             }
         }
         source_data = item
@@ -267,21 +291,21 @@ def load_json_data():
 
 
 # if __name__ == "__main__":   
-#     create_index()
+    # create_index()
      
-#     query_sentence = "generate a story the talks about pig honey and bear"
-#     title = "The Unlikely Friendship of a Pig, a Honeybee, and a Bear"
-#     content = "Once upon a time, deep in the heart of a lush forest, there lived a pig named Percy. Percy was a friendly pig who loved to roam around the forest in search of tasty treats. One day, while exploring the woods, he stumbled upon a beehive filled with golden honey. Percy couldn't resist the sweet aroma of the honey and decided to help himself to a taste. As he was savoring the delicious honey, a large bear named Bruno appeared out of nowhere. Bruno was known throughout the forest for his love of honey and his fierce nature. Percy, realizing he was caught in the act, braced himself for an angry confrontation with Bruno. But to his surprise, Bruno wasn't angry at all. Instead, he asked Percy where he had found the honey. Percy, realizing he had nothing to lose, led Bruno to the beehive where he had discovered the honey. Bruno was overjoyed and thanked Percy for showing him the way. Together, they feasted on the honey, savoring every last drop. As they ate, they chatted and got to know each other better. Percy discovered that Bruno wasn't as fierce as he had originally thought. In fact, Bruno had a soft spot for pigs like Percy. They shared stories about their adventures in the forest and laughed about their silly mishaps. From that day on, Percy and Bruno became the best of friends. They would meet regularly at the beehive and enjoy honey together, always remembering the day they first met. And so, in the heart of the forest, a pig and a bear became unlikely friends over their shared love of honey."
-#     author = "Ellie Henkaline" 
-#     image_folder_path = "/home/user/images/story6"
+    # query_sentence = "generate a story the talks about pig honey and bear"
+    # title = "The Unlikely Friendship of a Pig, a Honeybee, and a Bear"
+    # content = "Once upon a time, deep in the heart of a lush forest, there lived a pig named Percy. Percy was a friendly pig who loved to roam around the forest in search of tasty treats. One day, while exploring the woods, he stumbled upon a beehive filled with golden honey. Percy couldn't resist the sweet aroma of the honey and decided to help himself to a taste. As he was savoring the delicious honey, a large bear named Bruno appeared out of nowhere. Bruno was known throughout the forest for his love of honey and his fierce nature. Percy, realizing he was caught in the act, braced himself for an angry confrontation with Bruno. But to his surprise, Bruno wasn't angry at all. Instead, he asked Percy where he had found the honey. Percy, realizing he had nothing to lose, led Bruno to the beehive where he had discovered the honey. Bruno was overjoyed and thanked Percy for showing him the way. Together, they feasted on the honey, savoring every last drop. As they ate, they chatted and got to know each other better. Percy discovered that Bruno wasn't as fierce as he had originally thought. In fact, Bruno had a soft spot for pigs like Percy. They shared stories about their adventures in the forest and laughed about their silly mishaps. From that day on, Percy and Bruno became the best of friends. They would meet regularly at the beehive and enjoy honey together, always remembering the day they first met. And so, in the heart of the forest, a pig and a bear became unlikely friends over their shared love of honey."
+    # author = "Ellie Henkaline" 
+    # image_folder_path = "/home/user/images/story6"
 
 #     insert_to_index(query_sentence, author, title, content, image_folder_path)
 
     # print_all_data()
-    # for i in range (6, get_largest_id()):
-    # query_story_by_id(1)
-    # delete_story_by_id(1)  
+    # for i in range (6, get_largest_storyNumber()):
+    # query_story_by_storyNumber(1)
+    # delete_story_by_storyNumber(1)  
         
-    # print(get_largest_id())
-    # print(query_story_by_id(1))
-    # print(get_largest_id())
+    # print(get_largest_storyNumber())
+    # print(query_story_by_storyNumber(1))
+    # print(get_largest_storyNumber())
