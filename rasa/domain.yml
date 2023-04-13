@@ -17,6 +17,7 @@ intents:
   - change_color_scheme
   - change_font
   - change_sound
+  - button_disabled
 
 entities:
   - scheme
@@ -157,6 +158,9 @@ responses:
 
   utter_sound_changed:
   - text: "Sound was changed to {sound}.  What else can I do?"
+
+  utter_button_disabled:
+  - text: "You need to generate a story first would you like to generate a new story?"
 
 actions:
 - action_say_keywords

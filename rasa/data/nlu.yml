@@ -129,3 +129,6 @@ nlu:
     - [disable](sound)
     - turn sound on [enable](sound)
     - turn sound off [disable](sound)
+- intent: button_disabled
+  examples: |
+    - no story yet!
