@@ -3,6 +3,8 @@ import sounds
 import utility as utl
 import helpers as h
 import json
+import requests
+import chat
 pygame.init()
 utl.MAIN_COLOR_SCHEME = 1
 utl.colorscheme = h.applyColorScheme(utl.MAIN_COLOR_SCHEME)   
@@ -13,7 +15,10 @@ with open('rasa/rasa_pass.json','r+') as f:
     "scheme": "Original",
     "font": "Monaco",
     "sound": "ENABLE",
-    "keywords": []
+    "keywords": [],
+    "story": [],
+    "story_num": 1,
+    "image_paths":[]
 }, f, indent=4)
     f.truncate()
 
@@ -32,7 +37,13 @@ def run():
             utl.Scheme = data['scheme']
             utl.Font = data['font']
             utl.Sound = data['sound']
+            utl.storyText = data['story']
+            storyNumber = data['story_num']
+            image_paths = data['image_paths']
             
+        numOfEntries = len(utl.storyText)
+        utl.storyImages = [pygame.transform.scale(pygame.image.load(f"./rasa/images/story_{storyNumber}/sentence_{i}.png"), (508, 508)) for i in range(numOfEntries)]
+
         h.updateScheme(utl.Scheme)
         utl.colorscheme = h.applyColorScheme(utl.MAIN_COLOR_SCHEME)   
         h.updateFont(utl.Font)
@@ -44,13 +55,21 @@ def run():
         else:
             backToMenuButtonRect = story.updateStory(event_list)
         
+
         # Check for any button pushes or program closure
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if in_main_window and viewStoryButtonRect.collidepoint(mouse) and len(utl.storyText) > 0:
-                    if utl.Sound.upper() == "ENABLE":
-                        sounds.playSound("success")
-                    in_main_window = False
+                if in_main_window and viewStoryButtonRect.collidepoint(mouse):
+                    if len(utl.storyText) > 0:
+                        if utl.Sound.upper() == "ENABLE":
+                            sounds.playSound("success")
+                        in_main_window = False
+                    else:
+                        print("button disabled!")
+                        #button disabled
+                        r = requests.post('http://localhost:5002/webhooks/rest/webhook', json={"sender": utl.session_id, "message": "no story yet!"})
+
+
                 elif not in_main_window and backToMenuButtonRect.collidepoint(mouse):
                     if utl.Sound.upper() == "ENABLE":
                         sounds.playSound("success")

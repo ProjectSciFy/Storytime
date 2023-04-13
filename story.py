@@ -93,7 +93,7 @@ def updateStory(event_list: list):
         utl.STORY_WINDOW.blit(back_arrow_button_dark, back_arrow_button_dark.get_rect(center = backArrowRect.center))
         pygame.draw.rect(utl.STORY_WINDOW, utl.colorscheme[h.Scheme("OUTLINE_NO_HOVER")], backArrowRect, 2, 3)
     # hover or no over for forward arrow 
-    if forwardArrowRect.collidepoint(mouse) and utl.storyLine <= len(utl.storyText)-1: 
+    if forwardArrowRect.collidepoint(mouse) and utl.storyLine < len(utl.storyText) - 1: 
         pygame.draw.rect(utl.STORY_WINDOW, button_light, forwardArrowRect, border_radius=3)
         utl.STORY_WINDOW.blit(forward_arrow_button_light, forward_arrow_button_light.get_rect(center = forwardArrowRect.center))
         pygame.draw.rect(utl.STORY_WINDOW, utl.colorscheme[h.Scheme("OUTLINE_HOVER")], forwardArrowRect, 2, 3)
@@ -116,7 +116,7 @@ def updateStory(event_list: list):
     for event in event_list: 
         if event.type == pygame.MOUSEBUTTONDOWN and backArrowRect.collidepoint(mouse) and utl.storyLine > 0: 
             utl.storyLine -= 1
-        elif event.type == pygame.MOUSEBUTTONDOWN and forwardArrowRect.collidepoint(mouse) and utl.storyLine <= len(utl.storyText)-1: 
+        elif event.type == pygame.MOUSEBUTTONDOWN and forwardArrowRect.collidepoint(mouse) and utl.storyLine < len(utl.storyText) - 1: 
             utl.storyLine += 1 
             
     rect = textStoryRect

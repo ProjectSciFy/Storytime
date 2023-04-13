@@ -2,5 +2,8 @@
     "scheme": "Original",
     "font": "Monaco",
     "sound": "ENABLE",
-    "keywords": []
+    "keywords": [],
+    "story": [],
+    "story_num": 1,
+    "image_paths": []
 }

@@ -12,11 +12,13 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import AllSlotsReset
+import pygame
 import json
 
 import sys
 sys.path.append("..") 
-from generate import generateSampleStory, returnToRasa
+from generate import generateSampleStory
+import utility as utl
 #from helpers import updateScheme, updateFont, updateSound
 
 class ActionSayKeywords(Action):
@@ -35,17 +37,27 @@ class ActionSayKeywords(Action):
 
         keywords = [keyword1, keyword2, keyword3, keyword4]
 
+        string_keywords = " ".join(keywords)
+        [image_paths, sentences, storyNumber] = generateSampleStory(string_keywords, "sample author")
+
+        utl.storyText = sentences
+        numOfEntries = len(sentences)
+        utl.storyImages = [pygame.transform.scale(pygame.image.load(f"./images/story_{storyNumber}/sentence_{i}.png"), (508, 508)) for i in range(numOfEntries)]
+        
         with open('rasa_pass.json','r+') as f:
             data = json.load(f)
             data['keywords'] = keywords
+            data['story'] = sentences
+            data['image_paths'] =image_paths
+            data['story_num'] = storyNumber
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate()
 
-        #generateSampleStory(1, keywords)
-        message = returnToRasa(keywords)
-        dispatcher.utter_message(message)
-        #dispatcher.utter_message(text=f"Thanks! Your story in on the story page with the keywords {keyword1} {keyword2} {keyword3} {keyword4}.")
+        #message = returnToRasa(keywords)
+        #dispatcher.utter_message(message)
+
+        dispatcher.utter_message(text=f"Thanks! Your story in on the story page with the keywords {keyword1} {keyword2} {keyword3} {keyword4}.")
 
         return []
     
