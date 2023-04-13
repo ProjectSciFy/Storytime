@@ -32,8 +32,7 @@ import elasticSearch
 from math import ceil
 
 # Set the OpenAI API key
-# openai.api_key = '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'
-
+openai.api_key = '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'
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
 1) text-davinci-003
@@ -58,7 +57,7 @@ def generate_story(keywords):
   Returns:
   A string containing the generated story.
   """
-  prompt = f"generate a story on: {keywords}"
+  prompt = f"make story on: {keywords}"
   response = openai.Completion.create(
     model="text-davinci-003",
     prompt=prompt,
@@ -213,7 +212,7 @@ def generateSampleStory(keywords: str, author: str) -> list:
 
   # Return a list of tuples containing each sentence of the story and its corresponding image
   print(image_paths)
-  return [image_paths, sentences]
+  return [image_paths, sentences, storyNumber]
 
 
 
