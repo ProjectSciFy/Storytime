@@ -68,3 +68,8 @@ rules:
   steps:
   - intent: change_sound
   - action: action_update_sound
+
+- rule: button disabled
+  steps:
+  - intent: button_disabled
+  - action: utter_button_disabled
