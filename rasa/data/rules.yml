@@ -57,14 +57,19 @@ rules:
 - rule: change color scheme
   steps:
   - intent: change_color_scheme
-  - action: utter_color_changed
+  - action: action_update_color
 
 - rule: change font
   steps:
   - intent: change_font
-  - action: utter_font_changed
+  - action: action_update_font
 
 - rule: change sound 
   steps:
   - intent: change_sound
-  - action: utter_sound_changed
+  - action: action_update_sound
+
+- rule: button disabled
+  steps:
+  - intent: button_disabled
+  - action: utter_button_disabled

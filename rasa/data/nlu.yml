@@ -119,13 +119,16 @@ nlu:
     - [fire](scheme)
 - intent: change_font
   examples: |
-    - change to [verdana](font).
-    - revert to the [comic sans](font).
-    - change to [gillsans](font).
-    - [kannadam](font)
+    - change to [menlo](font).
+    - revert to the [monaco](font).
+    - change to [dejava sans mono](font).
+    - [dejava sans mono](font)
 - intent: change_sound
   examples: |
     - [enable](sound) sound
     - [disable](sound)
     - turn sound on [enable](sound)
     - turn sound off [disable](sound)
+- intent: button_disabled
+  examples: |
+    - no story yet!

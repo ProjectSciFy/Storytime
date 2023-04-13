@@ -1,7 +1,7 @@
 import pygame
 import utility as utl
 from PIL import Image
-
+import json
 
 '''''''''''''''''
 '               '
@@ -101,6 +101,7 @@ def drawBorder(surf: pygame.Surface):
     pygame.draw.rect(surf, utl.colorscheme[Scheme("TEXT_NO_HOVER")], rect, 2)
      
 def updateScheme(Scheme: str) -> list:
+    utl.scheme = Scheme
     # COLOR SCHEME UPDATE
     if Scheme.upper() == "ORIGINAL":
         utl.MAIN_COLOR_SCHEME = 1
@@ -111,16 +112,40 @@ def updateScheme(Scheme: str) -> list:
     elif Scheme.upper() == "FIRE":
         utl.MAIN_COLOR_SCHEME = 4
     utl.colorscheme = applyColorScheme(utl.MAIN_COLOR_SCHEME) 
+
+    with open('rasa/rasa_pass.json','r+') as f:
+            data = json.load(f)
+            data['scheme'] = utl.scheme
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate() 
+
     return utl.colorscheme
     
 def updateFont(Font: str) -> tuple:
     #FONT UPDATE
     utl.SysFont = pygame.font.SysFont(Font, utl.font_size)
     utl.SysSmallFont = pygame.font.SysFont(Font, utl.font_size_small)
+
+    with open('rasa/rasa_pass.json','r+') as f:
+        data = json.load(f)
+        data['font'] = Font
+        f.seek(0)
+        json.dump(data, f, indent=4)
+        f.truncate() 
+
     return (utl.SysFont, utl.SysSmallFont)
  
 def updateSound(Sound: str) -> str:
     utl.Sound = Sound.upper()
+
+    with open('rasa/rasa_pass.json','r+') as f:
+        data = json.load(f)
+        data['sound'] = utl.Sound
+        f.seek(0)
+        json.dump(data, f, indent=4)
+        f.truncate() 
+
     return utl.Sound
 
 def updateStoryText(sentences: list) -> list:

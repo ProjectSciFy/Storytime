@@ -32,7 +32,7 @@ import elasticSearch
 from math import ceil
 
 # Set the OpenAI API key
-openai.api_key = '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'
+# openai.api_key = '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'
 
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
