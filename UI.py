@@ -61,8 +61,8 @@ def run():
                     else:
                         print("button disabled!")
                         #button disabled
-                        r = requests.post('http://localhost:5002/webhooks/rest/webhook', json={"sender": utl.session_id, "message": "no story yet!"})
-
+                        #r = requests.post('http://localhost:5002/webhooks/rest/webhook', json={"sender": utl.session_id, "message": "no story yet!"})
+                        main.chatWindow.send_chatbot("no story yet!")
 
                 elif not in_main_window and backToMenuButtonRect.collidepoint(mouse):
                     if utl.Sound.upper() == "ENABLE":
