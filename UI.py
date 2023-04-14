@@ -9,18 +9,12 @@ pygame.init()
 utl.MAIN_COLOR_SCHEME = 1
 utl.colorscheme = h.applyColorScheme(utl.MAIN_COLOR_SCHEME)   
 
-with open('rasa/rasa_pass.json','r+') as f:
-    f.seek(0)
-    json.dump({
-    "scheme": "Original",
-    "font": "Monaco",
-    "sound": "ENABLE",
-    "keywords": [],
-    "story": [],
-    "story_num": 1,
-    "image_paths":[]
-}, f, indent=4)
-    f.truncate()
+with open('rasa/rasa_pass.json','r+') as f1:
+    f1.seek(0)
+    with open('default_config.json','r') as f2:
+            data = json.load(f2)
+    json.dump(data, f1, indent=4)
+    f1.truncate()
 
 def run(): 
     import main
