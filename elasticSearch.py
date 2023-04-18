@@ -52,9 +52,9 @@ from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import NotFoundError
 import json
 
-CLOUD_ID = "StoryTime:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRjZGZhNmVlODBkNTE0MTFjOTE3Zjg0Nzg5NmI3MzBiMyRjZWFmZGRjYjA1YjQ0OTJkYjU4OGQxNjMwNDg2MWI5ZA=="
+CLOUD_ID = "StoryTime:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRhYjRkMWU4OWNjMzY0YjBhYTRhZmQ4ZmYzYjY0ZjBhMCQ2ZGQ4NjlkNDg1YmY0M2Y0OTdjYzVkODMwMDY1ODM5NA=="
 USERNAME = "elastic"
-PASSWORD = "3RPssfQZja8g1VmzoiFhbH7q"
+PASSWORD = "6TOzjl21shgOowUz46ONFKCB"
 INDEX_NAME = "storytime_index"
 
 def connect_elasticsearch():

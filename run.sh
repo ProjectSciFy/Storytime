@@ -12,6 +12,6 @@ cd rasa
 rasa run -m models --endpoints endpoints.yml --port 5002 --credentials credentials.yml &
 rasa run actions &
 cd ..
-sleep 90
-python ui.py 
+sleep 50
+python3.7 ui.py 
 
