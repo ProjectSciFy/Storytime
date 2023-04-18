@@ -132,3 +132,16 @@ nlu:
 - intent: button_disabled
   examples: |
     - no story yet!
+
+- intent: view_library
+  examples: |
+    - show me previous stories
+    - display library
+    - show me the titles in the library
+    - what stories have been done before?
+
+- intent: select_title
+  examples: |
+    - I would like to see [Tale of Two Dogs](title)
+    - Show me [Dragon Fight](title)
+    - I want to read the story about [Tiger's Day](title)

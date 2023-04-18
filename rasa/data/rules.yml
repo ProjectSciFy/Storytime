@@ -73,3 +73,19 @@ rules:
   steps:
   - intent: button_disabled
   - action: utter_button_disabled
+
+- rule: view library
+  steps:
+  - intent: view_library
+  - action: action_show_stored_titles
+
+- rule: select library
+  steps:
+  - intent: select_title
+  - action: action_load_story
+
+- rule: deny_response
+  steps:
+  - intent: deny
+  - action: utter_how_help
+
