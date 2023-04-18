@@ -1,50 +1,49 @@
 """
-BUG LEFT: FIX THE image_folder_path
-
-
-This code connects to an Elasticsearch instance hosted in Elastic Cloud, creates an index, 
-inserts data into the index, retrieves data from the index, and loads JSON data into the index.
-    
+This code connects to an Elasticsearch instance hosted in Elastic Cloud, creates an index, inserts data into the index, retrieves data from the index, and loads JSON data into the index.
 
 POST
     insert_to_index(query_sentence, author, title, content, image_folder_path)  
         Inserts data into the Elasticsearch index with the specified fields.
         Arguments:
-            query_sentence
-                type: string
-            author
-                type: string
-            title
-                type: string
-            content
-                type: string 
-            image_folder_path
-                type: string
+            query_sentence (str)
+            author (str)
+            title (str)
+            content (str)
+            image_folder_path (str)
 
 GET
     query_story_by_storyNumber(storyNumber)
-        queries Elasticsearch for a story with the specified storyNumber and returns its contents.
-        type: int
+        Queries Elasticsearch for a story with the specified storyNumber and returns its contents.
+        Arguments:
+            storyNumber (int)
 
 DELETE
     delete_story_by_storyNumber(storyNumber)
-        deletes a story from Elasticsearch based on its storyNumber
-        type: int
+        Deletes a story from Elasticsearch based on its storyNumber.
+        Arguments:
+            storyNumber (int)
 
-
-others:
+Others:
     connect_elasticsearch()
-        connects to the Elasticsearch instance and returns a client object.
+        Connects to the Elasticsearch instance and returns a client object.
 
     create_index()
-        creates an Elasticsearch index with the specified name, settings, and mappings.
+        Creates an Elasticsearch index with the specified name, settings, and mappings.
 
     print_all_data()
-        retrieves all data from the Elasticsearch index and prints it.
+        Retrieves all data from the Elasticsearch index and prints it.
 
     load_json_data()
-        loads data from a JSON file and indexes it into the Elasticsearch index.
-        example data is in example_data.json
+        Loads data from a JSON file and indexes it into the Elasticsearch index. Example data is in example_data.json.
+
+    get_titles_from_es()
+        Connects to Elasticsearch and retrieves the titles of all stories in the index. Returns a list of title strings.
+
+    search_story_by_title(title)
+        Connects to Elasticsearch and searches for a story with the specified title.
+        If a single story is found, returns a tuple containing a list of image paths for each sentence in the story and a list of sentences in the story. If no story is found, prints an error message and returns empty lists.
+        Arguments:
+            title (str)
 
 """
 
@@ -311,6 +310,7 @@ def get_titles_from_es():
     return titles
 
 from elasticsearch import Elasticsearch
+
 
 def search_story_by_title(title):
     client = connect_elasticsearch()  # assuming you have already defined this function
