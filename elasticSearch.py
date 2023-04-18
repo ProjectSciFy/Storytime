@@ -50,11 +50,13 @@ others:
 
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import NotFoundError
+import nltk
 import json
+from nltk.tokenize import sent_tokenize
 
-CLOUD_ID = "StoryTime:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRjZGZhNmVlODBkNTE0MTFjOTE3Zjg0Nzg5NmI3MzBiMyRjZWFmZGRjYjA1YjQ0OTJkYjU4OGQxNjMwNDg2MWI5ZA=="
+CLOUD_ID = "StoryTime:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRhYjRkMWU4OWNjMzY0YjBhYTRhZmQ4ZmYzYjY0ZjBhMCQ2ZGQ4NjlkNDg1YmY0M2Y0OTdjYzVkODMwMDY1ODM5NA=="
 USERNAME = "elastic"
-PASSWORD = "3RPssfQZja8g1VmzoiFhbH7q"
+PASSWORD = "6TOzjl21shgOowUz46ONFKCB"
 INDEX_NAME = "storytime_index"
 
 def connect_elasticsearch():
@@ -288,6 +290,68 @@ def load_json_data():
     print(response)
 
 
+def get_titles_from_es():
+    client = connect_elasticsearch()
+    index_name = INDEX_NAME
+
+    # Define the search query
+    search_query = {
+        "query": {
+            "match_all": {}  # Retrieve all documents
+        },
+        "_source": ["story.title"]  # Only return the title field
+    }
+
+    # Execute the search query
+    response = client.search(index=index_name, body=search_query)
+
+    # Extract the titles from the response
+    titles = [hit["_source"]["story"]["title"] for hit in response["hits"]["hits"]]
+
+    return titles
+
+from elasticsearch import Elasticsearch
+
+def search_story_by_title(title):
+    client = connect_elasticsearch()  # assuming you have already defined this function
+    index_name = INDEX_NAME  # assuming you have already defined this variable
+
+    sentences = []
+    image_paths = []
+
+    # Define the search query
+    search_query = {
+        "query": {
+            "bool": {
+                "must": [
+                    {"match": {"story.content": title}}
+                ],
+                "filter": [
+                    {"match_phrase": {"story.title": {"query": title, "slop": 0}}}
+                ]
+            }
+        }
+    }
+
+    # Execute the search query
+    response = client.search(index=index_name, body=search_query)
+
+    # Extract the story content from the response
+    if response["hits"]["total"]["value"] == 1:  # Check if only one story is found
+        story_content = response["hits"]["hits"][0]["_source"]["story"]["content"]
+        image_folder = response["hits"]["hits"][0]["_source"]["image_folder_path"]
+        sentences = nltk.sent_tokenize(story_content)
+        
+        #generate the image_path
+        for i in range(len(sentences)):
+            image_paths.append(f"{image_folder}/sentence_{i}.png")
+
+        # print(len(image_paths), len(sentences))
+        return [image_paths, sentences]
+    else:
+        print("No story found with title '{}'".format(title))
+        return [image_paths, sentences]
+    
 
 
 # if __name__ == "__main__":   
@@ -309,3 +373,9 @@ def load_json_data():
     # print(get_largest_storyNumber())
     # print(query_story_by_storyNumber(1))
     # print(get_largest_storyNumber())
+
+
+    # print(get_titles_from_es())
+    # res = get_titles_from_es()
+    # print(search_story_by_title(res[0]))
+

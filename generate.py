@@ -32,7 +32,7 @@ import elasticSearch
 from math import ceil
 
 # Set the OpenAI API key
-# openai.api_key = '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'
+openai.api_key = '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'
 
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
@@ -77,7 +77,7 @@ def generate_title(story):
   Returns:
   A string containing the generated title.
   """
-  prompt = f"generate a story title: {story}"
+  prompt = f"generate short story title: {story}"
   response = openai.Completion.create(
     model="text-davinci-003",
     prompt=prompt,
@@ -219,7 +219,7 @@ def generateSampleStory(keywords: str, author: str) -> list:
 
 # for testing purpose
 # if __name__ == "__main__":  
-#   generateSampleStory("sneeze cat jacket", "Gal Pinhasi")
+#   generateSampleStory("car teeth bear", "Hans Yu")
       
 
 
