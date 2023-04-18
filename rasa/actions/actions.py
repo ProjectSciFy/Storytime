@@ -54,13 +54,9 @@ class ActionSayKeywords(Action):
             json.dump(data, f, indent=4)
             f.truncate()
 
-        #message = returnToRasa(keywords)
-        #dispatcher.utter_message(message)
-
         dispatcher.utter_message(text=f"Thanks! Your story in on the story page with the keywords {keyword1} {keyword2} {keyword3} {keyword4}.")
 
         return []
-    
 
 class ActionResetForm(Action):
     def name(self) -> Text:
@@ -129,5 +125,46 @@ class ActionUpdateSound(Action):
             json.dump(data, f, indent=4)
             f.truncate() 
         dispatcher.utter_message(text=f"Updating sound to {sound}.")
+        
+        return []
+    
+class ActionShowStoredTitles(Action):
+    def name(self) -> Text:
+        return "action_show_stored_titles"
+    
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        titles = ['The Dragon and the Bear','A Mining Adventure','Battle for the World','Story Title 57']
+        title_string =  ", ".join(titles)
+        dispatcher.utter_message(text=f"Your library contains the following titles: {title_string}")
+        
+        return []
+    
+class ActionLoadStory(Action):
+    def name(self) -> Text:
+        return "action_load_story"
+    
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        titles = ['The Dragon and the Bear','A Mining Adventure','Battle for the World','Story Title 57']
+        title_string =  ", ".join(titles)
+
+        title = tracker.get_slot("title")
+
+        title_found = False
+        dispatcher.utter_message(title)
+        for lib_title in titles:
+            if title.lower() in lib_title.lower():
+                title = lib_title
+                title_found = True
+        if title_found:
+            dispatcher.utter_message(text=f"Thanks! {title} in on the story page.")
+
+        else:
+            dispatcher.utter_message(text=f"Sorry! That title is not in the library. Your library contains the following titles: {title_string}")
         
         return []

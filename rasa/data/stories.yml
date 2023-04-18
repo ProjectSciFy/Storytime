@@ -22,3 +22,10 @@ stories:
     - keyword_4: bear
   - active_loop: null
   - action: action_say_keywords
+
+- story: view library
+  steps:
+  - intent: view_library
+  - action: action_show_stored_titles
+  - intent: select_title
+  - action: action_load_story

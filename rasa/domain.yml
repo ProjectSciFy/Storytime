@@ -18,11 +18,14 @@ intents:
   - change_font
   - change_sound
   - button_disabled
+  - view_library
+  - select_title
 
 entities:
   - scheme
   - font
   - sound
+  - title
 
 slots:
   keyword_1:
@@ -32,7 +35,6 @@ slots:
         conditions: 
         - active_loop: keyword_filling_form
           requested_slot: keyword_1
-
   keyword_2:
     type: text
     mappings: 
@@ -65,8 +67,6 @@ slots:
     mappings: 
       - type: from_entity
         entity: scheme
-
-
   font:
     type: categorical
     values:
@@ -77,7 +77,6 @@ slots:
     mappings: 
       - type: from_entity
         entity: font
-
   sound:
     type: categorical
     values:
@@ -87,7 +86,11 @@ slots:
     mappings: 
       - type: from_entity
         entity: sound
-
+  title:
+      type: text
+      mappings:
+        - type: from_entity
+          entity: title
 
 forms:
   keyword_filling_form:
@@ -162,12 +165,17 @@ responses:
   utter_button_disabled:
   - text: "You need to generate a story first would you like to generate a new story?"
 
+  utter_how_help:
+  - text: "Ok! Let me know how I can help.  If you don't know what I am capable of, feel free to ask for help!"
+
 actions:
 - action_say_keywords
 - action_reset_form
 - action_update_color
 - action_update_font
 - action_update_sound
+- action_show_stored_titles
+- action_load_story
 
 session_config:
   session_expiration_time: 60 #value in minutes

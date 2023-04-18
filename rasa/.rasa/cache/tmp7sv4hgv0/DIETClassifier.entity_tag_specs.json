@@ -1,0 +1,44 @@
+[
+  {
+    "tag_name": "entity",
+    "ids_to_tags": {
+      "1": "B-font",
+      "2": "I-font",
+      "3": "L-font",
+      "4": "U-font",
+      "5": "B-scheme",
+      "6": "I-scheme",
+      "7": "L-scheme",
+      "8": "U-scheme",
+      "9": "B-sound",
+      "10": "I-sound",
+      "11": "L-sound",
+      "12": "U-sound",
+      "13": "B-title",
+      "14": "I-title",
+      "15": "L-title",
+      "16": "U-title",
+      "0": "O"
+    },
+    "tags_to_ids": {
+      "B-font": 1,
+      "I-font": 2,
+      "L-font": 3,
+      "U-font": 4,
+      "B-scheme": 5,
+      "I-scheme": 6,
+      "L-scheme": 7,
+      "U-scheme": 8,
+      "B-sound": 9,
+      "I-sound": 10,
+      "L-sound": 11,
+      "U-sound": 12,
+      "B-title": 13,
+      "I-title": 14,
+      "L-title": 15,
+      "U-title": 16,
+      "O": 0
+    },
+    "num_tags": 17
+  }
+]
