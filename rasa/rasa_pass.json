@@ -3,28 +3,20 @@
     "font": "Monaco",
     "sound": "ENABLE",
     "keywords": [
-        "jedi",
-        "empire",
-        "rebellion",
-        "lightsaber"
+        "potato",
+        "birb",
+        "finch",
+        "skittles"
     ],
     "story": [
-        "Once upon a time in a galaxy far, far away... the Jedi Empire and the Rebellion were engaged in a great struggle for power.",
-        "The Jedi were using their powerful weapons, known as lightsabers, to keep the Rebellion at bay.",
-        "The Jedi had been in control of the galaxy for centuries, but the Rebellion had grown in strength over the last decade.",
-        "They fought courageously in order to topple the Jedi and return peace and justice to the galaxy.",
-        "The Rebellion was no match for the Jedi, however.",
-        "The Jedi were experienced warriors who had honed their skills over the centuries and wielded their lightsabers with unrivaled precision.",
-        "For every Rebel victory, the Jedi struck back with equal, if not greater, force.",
-        "The Rebellion refused to give up and kept fighting.",
-        "They used whatever means necessary to attempt to defeat the Jedi, but their efforts were thwarted.",
-        "It was a dark time for the galaxy and it seemed that there was no hope for the Rebellion.",
-        "But then, a new force emerged.",
-        "A group of powerful Force-wielders, not trained in the ways of the Jedi, stepped in to aid the Rebellion.",
-        "With their unique skills and the help of their powerful lightsabers, they managed to turn the tide in their favor.",
-        "The new Force-wielders managed to weaken the Jedi and helped the Rebellion to finally triumph in their battle against them.",
-        "The galaxy rejoiced as peace and justice were restored.",
-        "The Jedi were defeated, but their legacy remained forever."
+        "Once upon a time, there were two friendly birds - a potato birb and a finch.",
+        "The potato birb was always looking for something new and exciting to do.",
+        "One day, the birb stumbled upon a box of skittles and was intrigued by the multi-colored sweets.",
+        "He quickly gathered up all the skittles in a pile and flew back to the finch's nest with the box.",
+        "The finch was delighted to see the skittles and couldn't decide which color he wanted to try first.",
+        "The birb and finch had a wonderful time tasting each flavor of skittles and chatting about how much they enjoyed them.",
+        "Since that day, the two birds were known around the forest as the \"Potato Birb and the Skittles Finch.\"",
+        "Whenever anyone saw them, they knew it was time to bring out the skittles!"
     ],
     "story_num": 50,
     "image_paths": [
@@ -35,14 +27,6 @@
         "./images/story_50/sentence_4.png",
         "./images/story_50/sentence_5.png",
         "./images/story_50/sentence_6.png",
-        "./images/story_50/sentence_7.png",
-        "./images/story_50/sentence_8.png",
-        "./images/story_50/sentence_9.png",
-        "./images/story_50/sentence_10.png",
-        "./images/story_50/sentence_11.png",
-        "./images/story_50/sentence_12.png",
-        "./images/story_50/sentence_13.png",
-        "./images/story_50/sentence_14.png",
-        "./images/story_50/sentence_15.png"
+        "./images/story_50/sentence_7.png"
     ]
 }

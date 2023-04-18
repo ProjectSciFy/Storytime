@@ -32,7 +32,7 @@ import os
 from math import ceil
 
 # Set the OpenAI API key
-openai.api_key = #######
+openai.api_key = #####
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
 1) text-davinci-003
