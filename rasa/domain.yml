@@ -176,6 +176,7 @@ actions:
 - action_update_sound
 - action_show_stored_titles
 - action_load_story
+- validate_keyword_filling_form
 
 session_config:
   session_expiration_time: 60 #value in minutes

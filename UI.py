@@ -58,6 +58,7 @@ def run():
                         if utl.Sound.upper() == "ENABLE":
                             sounds.playSound("success")
                         in_main_window = False
+                        utl.storyLine = 0
                     else:
                         print("button disabled!")
                         #button disabled

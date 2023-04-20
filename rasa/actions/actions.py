@@ -9,9 +9,11 @@
 
 from typing import Any, Text, Dict, List
 
-from rasa_sdk import Action, Tracker
+from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import AllSlotsReset
+from rasa_sdk.types import DomainDict
+
 import pygame
 import json
 
@@ -20,6 +22,62 @@ sys.path.append("..")
 from generate import generateSampleStory
 import utility as utl
 #from helpers import updateScheme, updateFont, updateSound
+
+class ValidateKeywordFillingForm(FormValidationAction):
+    def name(self) -> Text:
+        return "validate_keyword_filling_form"
+
+    def validate_keyword_1(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+
+        if slot_value == "no story yet!":
+            dispatcher.utter_message(text="Sorry you need to enter keywords to generate a story first")
+            return {"keyword_1": None}
+        return {"keyword_1": slot_value}
+    
+    def validate_keyword_2(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+
+        if slot_value == "no story yet!":
+            dispatcher.utter_message(text="Sorry you need to enter more keywords, restarting keyword collection.")
+            return {"keyword_2": None}
+        return {"keyword_2": slot_value}
+    
+    def validate_keyword_3(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+
+        if slot_value == "no story yet!":
+            dispatcher.utter_message(text="Sorry you need to enter more keywords, restarting keyword collection.")
+            return {"keyword_3": None}
+        return {"keyword_3": slot_value}
+
+    def validate_keyword_4(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+
+        if slot_value == "no story yet!":
+            dispatcher.utter_message(text="Sorry you need to enter more keywords, restarting keyword collection.")
+            return {"keyword_4": None}
+        return {"keyword_4": slot_value}
 
 class ActionSayKeywords(Action):
 
@@ -36,6 +94,8 @@ class ActionSayKeywords(Action):
         keyword4 = tracker.get_slot("keyword_4")
 
         keywords = [keyword1, keyword2, keyword3, keyword4]
+
+        dispatcher.utter_message(text=f"Your story is currently being generated, this will take a minute.")
 
         string_keywords = " ".join(keywords)
         [image_paths, sentences, storyNumber] = generateSampleStory(string_keywords, "sample author")

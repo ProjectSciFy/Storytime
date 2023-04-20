@@ -28,11 +28,11 @@ from nltk.tokenize import sent_tokenize
 import openai
 import nltk
 import os
-import elasticSearch 
+#import elasticSearch 
 from math import ceil
 
 # Set the OpenAI API key
-openai.api_key = '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'
+openai.api_key = #####
 '''
 TEXT MODEL OPTIONS: https://platform.openai.com/docs/models/finding-the-right-model
 1) text-davinci-003
@@ -192,7 +192,8 @@ def generateSampleStory(keywords: str, author: str) -> list:
   storyTitle = generate_title(story)
 
   # Get the largest story ID in the Elasticsearch index and add 1 to generate a new ID for the current story
-  storyNumber = elasticSearch.get_largest_storyNumber() + 1
+  #storyNumber = elasticSearch.get_largest_storyNumber() + 1
+  storyNumber = 50
 
   # Save each generated image to a file
   image_folder_path = f"./images/story_{storyNumber}"
@@ -208,7 +209,7 @@ def generateSampleStory(keywords: str, author: str) -> list:
           f.write(response.content)
 
   # Set the author name and image folder path for the story, and add it to the Elasticsearch index
-  elasticSearch.insert_to_index(keywords, author, storyTitle, story, image_folder_path)
+  #elasticSearch.insert_to_index(keywords, author, storyTitle, story, image_folder_path)
 
   # Return a list of tuples containing each sentence of the story and its corresponding image
   print(image_paths)
