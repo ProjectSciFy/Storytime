@@ -34,6 +34,14 @@ rules:
   - action: keyword_filling_form
   - active_loop: keyword_filling_form
 
+- rule: start new form 
+  steps:
+  - intent: new_story
+  - action: action_reset_form
+  - action: keyword_filling_form
+  - active_loop: keyword_filling_form
+
+
 - rule: submit form
   condition:
   - active_loop: keyword_filling_form

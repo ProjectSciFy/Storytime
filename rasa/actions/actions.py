@@ -49,7 +49,7 @@ class ValidateKeywordFillingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         if slot_value == "no story yet!":
-            dispatcher.utter_message(text="Sorry you need to enter more keywords, restarting keyword collection.")
+            dispatcher.utter_message(text="Sorry you need to enter more keywords before you can view the story, try again!.")
             return {"keyword_2": None}
         return {"keyword_2": slot_value}
     
@@ -62,7 +62,7 @@ class ValidateKeywordFillingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         if slot_value == "no story yet!":
-            dispatcher.utter_message(text="Sorry you need to enter more keywords, restarting keyword collection.")
+            dispatcher.utter_message(text="Sorry you need to enter more keywords before you can view the story, try again!.")
             return {"keyword_3": None}
         return {"keyword_3": slot_value}
 
@@ -75,7 +75,7 @@ class ValidateKeywordFillingForm(FormValidationAction):
     ) -> Dict[Text, Any]:
 
         if slot_value == "no story yet!":
-            dispatcher.utter_message(text="Sorry you need to enter more keywords, restarting keyword collection.")
+            dispatcher.utter_message(text="Sorry you need to enter more keywords before you can view the story, try again!.")
             return {"keyword_4": None}
         return {"keyword_4": slot_value}
 
@@ -95,8 +95,6 @@ class ActionSayKeywords(Action):
 
         keywords = [keyword1, keyword2, keyword3, keyword4]
 
-        dispatcher.utter_message(text=f"Your story is currently being generated, this will take a minute.")
-
         string_keywords = " ".join(keywords)
         [image_paths, sentences, storyNumber] = generateSampleStory(string_keywords, "sample author")
 
@@ -114,7 +112,7 @@ class ActionSayKeywords(Action):
             json.dump(data, f, indent=4)
             f.truncate()
 
-        dispatcher.utter_message(text=f"Thanks! Your story in on the story page with the keywords {keyword1} {keyword2} {keyword3} {keyword4}.")
+        dispatcher.utter_message(text=f"Thanks! Your story in on the story page.")
 
         return []
 
@@ -144,7 +142,7 @@ class ActionUpdateColor(Action):
             json.dump(data, f, indent=4)
             f.truncate() 
        
-        dispatcher.utter_message(text=f"Updating scheme to {scheme}.")
+        dispatcher.utter_message(text=f"Updating scheme to {scheme}. Can I help with anything else?")
 
         return []
     
@@ -164,7 +162,7 @@ class ActionUpdateFont(Action):
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
-        dispatcher.utter_message(text=f"Updating font to {font}.")
+        dispatcher.utter_message(text=f"Updating font to {font}. Anything else I can do for you?")
         
         return []
     
@@ -184,7 +182,7 @@ class ActionUpdateSound(Action):
             f.seek(0)
             json.dump(data, f, indent=4)
             f.truncate() 
-        dispatcher.utter_message(text=f"Updating sound to {sound}.")
+        dispatcher.utter_message(text=f"Updating sound to {sound}. Need anything else?")
         
         return []
     

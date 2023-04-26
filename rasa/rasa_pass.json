@@ -1,22 +1,24 @@
 {
-    "scheme": "Original",
-    "font": "Monaco",
+    "scheme": "Mountain",
+    "font": "Menlo",
     "sound": "ENABLE",
     "keywords": [
-        "potato",
-        "birb",
-        "finch",
-        "skittles"
+        "fish",
+        "cancer",
+        "stab",
+        "run"
     ],
     "story": [
-        "Once upon a time, there were two friendly birds - a potato birb and a finch.",
-        "The potato birb was always looking for something new and exciting to do.",
-        "One day, the birb stumbled upon a box of skittles and was intrigued by the multi-colored sweets.",
-        "He quickly gathered up all the skittles in a pile and flew back to the finch's nest with the box.",
-        "The finch was delighted to see the skittles and couldn't decide which color he wanted to try first.",
-        "The birb and finch had a wonderful time tasting each flavor of skittles and chatting about how much they enjoyed them.",
-        "Since that day, the two birds were known around the forest as the \"Potato Birb and the Skittles Finch.\"",
-        "Whenever anyone saw them, they knew it was time to bring out the skittles!"
+        "Once upon a time, there was a fish called Tuna who lived happily in his pool.",
+        "One day, an evil creature came and cursed Tuna with cancer.",
+        "Despite the curse, Tuna was determined to survive and decided to take matters into his own fins.",
+        "He started to swim as fast as he could and swim away from the cancer.",
+        "Unfortunately, Tuna was not fast enough and the cancer started to catch up with him.",
+        "He used his last bit of strength to push himself forward and one last time, he swam as fast as he could.",
+        "To Tuna's surprise, he made it!",
+        "He had just put enough distance between him and the cancer that he managed to escape its claws.",
+        "From then on, Tuna found joy and happiness in life and swam carefree in his pool.",
+        "He was thankful that he was able to stab run his way out of danger and never faced such danger ever again."
     ],
     "story_num": 50,
     "image_paths": [
@@ -27,6 +29,8 @@
         "./images/story_50/sentence_4.png",
         "./images/story_50/sentence_5.png",
         "./images/story_50/sentence_6.png",
-        "./images/story_50/sentence_7.png"
+        "./images/story_50/sentence_7.png",
+        "./images/story_50/sentence_8.png",
+        "./images/story_50/sentence_9.png"
     ]
 }
