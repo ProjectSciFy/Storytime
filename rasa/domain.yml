@@ -20,6 +20,7 @@ intents:
   - button_disabled
   - view_library
   - select_title
+  - new_story
 
 entities:
   - scheme
@@ -130,22 +131,26 @@ responses:
   - text: "Thanks! Your story in on the story page with the keywords {keywords_slot}."
 
   utter_help:
-  - text: "Welcome to storytime! I am capable of helping you generate and flip through short stories about topics you reccomend. I can also help you modify your interactive story experience by changing: tts, language, story length, color scheme, etc. "
+  - text: "Welcome to storytime! I am capable of helping you generate and flip through short stories about topics you reccomend. I can also help you modify your interactive story experience by changing: color scheme, font, sounds etc. "
 
   utter_unable:
   - text: "Sorry I am unable to modify the story.  Would you like to generate a new one?"
 
   utter_ask_keyword_1:
   - text: "Great! We want to hear what you want your story to be about! Please enter one keyword for your story."
+  - text: "Ok! You get to define your own story! Please enter one keyword for your story."
 
   utter_ask_keyword_2:
-  - text: "Great!We will need a few more. Please enter another keyword for your story."
+  - text: "Great! We will need a few more. Please enter another keyword for your story."
+  - text: "Cool! We need a couple more. Enter another keyword for your story."
 
   utter_ask_keyword_3:
   - text: "Awesome! Please enter another one."
+  - text: "Got it! Please enter another keyword."
 
   utter_ask_keyword_4:
   - text: "Amazing! One more keyword please!"
+  - text: "One last keyword!"
 
   utter_keywords_output:
   - text: "Your entered keywords are {keyword_1} {keyword_2} {keyword_3} {keyword_4} {scheme} {font} {sound}"

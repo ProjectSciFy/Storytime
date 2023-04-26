@@ -145,3 +145,9 @@ nlu:
     - I would like to see [Tale of Two Dogs](title)
     - Show me [Dragon Fight](title)
     - I want to read the story about [Tiger's Day](title)
+
+- intent: new_story
+  examples: |
+    - generate a new story
+    - can I make another story
+    - lets make a new story
